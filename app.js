@@ -10,8 +10,8 @@ var Client = require('./client.js');	// Server-side representation of client
 /** Maps UUIDs to individual client sockets */
 var clientMap = {};
 
-/** Server presets */
-var maxConnections = 0;		// 0 for no limit
+/** Server preset constants */
+var MAX_CONNECTIONS = 0;		// 0 for no limit
 
 /** Values dynamically updated by the server */
 var numConnections = 0;		
@@ -43,11 +43,8 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 var io = require('socket.io').listen(server);
 
 /** Setup basic routing */
-app.get('/', function (req, res) {
-	res.sendfile(__dirname + '/index.html');
-});
 app.get('/*', function (req, res) {
-	res.sendfile(__dirname + '/' + req.params[0]);
+	res.sendfile(__dirname + '/public/' + req.params[0]);
 });
 
 /** Handle events */
@@ -63,13 +60,27 @@ function onConnection(socket) {
 	/** Use node-uuid to create a unique ID for our new client */
 	var cli = new Client(socket, uuid());
 	clientMap[cli.id] = cli;
-	numConnections++;
 	
-	socket.emit('connected', {id: cli.id});
+	if (++numConnections !== MAX_CONNECTIONS) {
+		socket.emit('connected', {id: cli.id, numUsers: numConnections});
+		socket.broadcast.emit('userJoined', {id: cli.id, numUsers: numConnections});
+	}
+	else refuse(socket);
 	
 	socket.on('disconnect', function () {
+		socket.broadcast.emit('userLeaving', {id: cli.id, numUsers: numConnections});
 		removeClient(cli.id);
+		numConnections--;
 	});
+}
+
+/** If we are over capacity, call this function to send a msg
+    and begin delayed disconnect */
+function refuse(socket) {
+	socket.emit('overCapacity');
+	setTimeout(function () {
+		socket.disconnect();
+	}, 500);
 }
 
 function getNumClients() { return Object.keys(clientMap).length; }

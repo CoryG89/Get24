@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SocketIOStarter</title>
+	
+	<!-- Include local version of jQuery 1.9 -->
+	<script type='text/ecmascript' src='js/jquery-1.9.0.min.js'></script>
+	
+	<!-- Custom stylesheet -->
+	<link type='text/css' rel='stylesheet' href='css/styles.css' />
+</head>
+<body>
+	<!-- A Couple of text elements to play around with -->
+	<p id='p1'></p>
+	<p id='p2'></p>
+	<p id='p3'></p>
+
+	<!-- Client-side Socket.IO code, symbolic path handled by the server -->
+	<script src='/socket.io/socket.io.js'></script>
+
+	<script>
+		var clientID = undefined;
+		var userCount = undefined;
+	
+		var socket = io.connect('/');
+	
+		socket.on('connected', function (data) {
+			clientID = data.id;
+			userCount = data.numUsers;
+			$('#p1').html('Connected via Socket.IO w/ session id --> ' + clientID);
+			$('#p2').html('Number of users connected to the server --> ' + userCount);
+		});
+	
+		socket.on('userJoined', function (data) {
+			userCount = data.numUsers;
+			$('#p2').html('Number of users connected to the server --> ' + userCount);
+			$('#p3').html('A new user connected w/ session id --> ' + data.id);
+		});
+	
+		socket.on('userLeaving', function (data) {
+			userCount = data.numUsers;
+			$('#p2').html('Number of users connected to the server --> ' + userCount);
+			$('#p3').html('A user has disconnected w/ session id --> ' + data.id);
+		});
+	
+		socket.on('overCapacity', function () {
+			$('#p1').html('Sorry, my server is currently at maximum capacity! : (');
+		});
+	</script>
+</body>
+</html>
