@@ -1,4 +1,17 @@
 Get24
 ===============
 
-A real-time competitive multiplayer math game written in JavaScript from back to front, using a server stack consisting of Node.JS, Express 3, and Socket.IO. On the client side the canvas graphics library KineticJS is used. All technologies used are open source. The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. The first player that can craft an arithmetical expression using all four of the digits once and only once is the winner. Players may use the four basic arithemtical operators (along with parenthesis to force precedence) in their expressions (+ - * /) and may use them more than once.
+A real-time competitive multiplayer math game written in JavaScript from back to front. I use a server stack consisting of the following:
+
+-Node.JS - Server-side javascript interpreter using Chrome's V8 Javascript engine.
+-Express 3 - Popular web application framework similar to Sinatra for Node.JS
+-Socket.IO - Websocket API with fallbacks for realtime communications
+
+On the client side I am using the following technologies:
+
+-jQuery 1.9 - Easy DOM manipulation/referencing.
+-KineticJS - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.
+
+All technologies used are open source. 
+
+The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. The first player that can craft an arithmetical expression using all four of the digits once and only once is the winner. Players may use the four basic arithemtical operators (along with parenthesis to force precedence) in their expressions (+ - * /) and may use them more than once.
