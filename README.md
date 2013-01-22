@@ -1,17 +1,28 @@
 Get24
 ===============
+<p>
+  A real-time competitive multiplayer math game written in JavaScript from back to front. I use a server stack consisting of the following:
+</p>
 
-A real-time competitive multiplayer math game written in JavaScript from back to front. I use a server stack consisting of the following:
 <ul>
-  <li><strong>Node.JS</strong> - Server-side javascript interpreter using Chrome's V8 Javascript engine.</li>
-  <li>Express 3 - Popular web application framework similar to Sinatra for Node.JS</li>
-  <li>Socket.IO - Websocket API with fallbacks for realtime communications</li>
+  <li><strong><a href='http://nodejs.org'>Node.JS</a></strong> - Server-side javascript interpreter using Chrome's V8 Javascript engine.</li>
+  <li><strong><a href='http://expressjs.com'>Express 3M</a></strong> - Popular web application framework similar to Sinatra for Node.JS</li>
+  <li><strong><a href='http://socket.io'>Socket.IO</a></strong> - Websocket API with fallbacks for realtime communications</li>
+</ul>
 
-On the client side I am using the following technologies:
+<p>
+  On the client side I am using the following technologies:
+</p>
 
--jQuery 1.9 - Easy DOM manipulation/referencing.
--KineticJS - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.
+<ul>
+  <li><strong><a href='http://jquery.com'>jQuery</a></strong> - Easy DOM manipulation/referencing.</li>
+  <li><strong><a href='http://kineticjs.com'>KineticJS</a></strong> - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.</li>
+</ul>
 
-All technologies used are open source. 
+<p>
+  All technologies used are open source. 
+</p>
 
-The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. The first player that can craft an arithmetical expression using all four of the digits once and only once is the winner. Players may use the four basic arithemtical operators (along with parenthesis to force precedence) in their expressions (+ - * /) and may use them more than once.
+<p>
+  The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. The first player that can craft an arithmetical expression using all four of the digits once and only once is the winner. Players may use the four basic arithemtical operators (along with parenthesis to force precedence) in their expressions (+ - * /) and may use them more than once.
+</p>
