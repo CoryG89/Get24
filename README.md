@@ -6,7 +6,7 @@ Get24
 
 <ul>
   <li><strong><a href='http://nodejs.org'>Node.JS</a></strong> - Server-side javascript interpreter using Chrome's V8 Javascript engine.</li>
-  <li><strong><a href='http://expressjs.com'>Express 3M</a></strong> - Popular web application framework similar to Sinatra for Node.JS</li>
+  <li><strong><a href='http://expressjs.com'>Express 3</a></strong> - Popular web application framework similar to Sinatra for Node.JS</li>
   <li><strong><a href='http://socket.io'>Socket.IO</a></strong> - Websocket API with fallbacks for realtime communications</li>
 </ul>
 
@@ -15,7 +15,7 @@ Get24
 </p>
 
 <ul>
-  <li><strong><a href='http://jquery.com'>jQuery</a></strong> - Easy DOM manipulation/referencing.</li>
+  <li><strong><a href='http://jquery.com'>jQuery 1.9</a></strong> - Easy DOM manipulation/referencing.</li>
   <li><strong><a href='http://kineticjs.com'>KineticJS</a></strong> - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.</li>
 </ul>
 
