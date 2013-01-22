@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SocketIOStarter</title>
+</head>
+<body>
+<script src='/socket.io/socket.io.js'></script>
+<script>
+	var clientID = undefined;
+	var socket = io.connect('/');
+	
+	socket.on('connected', function (data) {
+		clientID = data.id;
+		console.log('Connected via Socket.IO w/ session id --> ' + clientID);
+	});
+	
+</script>
+</body>
+</html>
