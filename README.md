@@ -2,10 +2,10 @@ Get24
 ===============
 
 A real-time competitive multiplayer math game written in JavaScript from back to front. I use a server stack consisting of the following:
-
--Node.JS - Server-side javascript interpreter using Chrome's V8 Javascript engine.
--Express 3 - Popular web application framework similar to Sinatra for Node.JS
--Socket.IO - Websocket API with fallbacks for realtime communications
+<ul>
+  <li><strong>Node.JS</strong> - Server-side javascript interpreter using Chrome's V8 Javascript engine.</li>
+  <li>Express 3 - Popular web application framework similar to Sinatra for Node.JS</li>
+  <li>Socket.IO - Websocket API with fallbacks for realtime communications</li>
 
 On the client side I am using the following technologies:
 
