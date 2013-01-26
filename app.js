@@ -1,19 +1,17 @@
 /** Include Required NPM Modules */
 var http = require('http');				// Node.JS HTTP Server
 var path = require('path');				// String File Path Handler
-var uuid = require('node-uuid');		// Universally Unique ID Generator
 var express = require('express');		// Express WebApp Framework
 
 /** Include Required Application Modules */
 var Client = require('./client.js');	// Server-side representation of client
 
-/** Maps UUIDs to individual client sockets */
-var clientMap = {};
+var Game = require('./game.js');
 
 /** Server preset constants */
-var MAX_CONNECTIONS = 0;		// 0 for no limit
+var MAX_CONNECTIONS = 10;		// 0 for no limit
 
-/** Values dynamically updated by the server */
+/** No. of currently connected, dynamically updated by the server */
 var numConnections = 0;		
 
 /** Get express app object and set global configuration */
@@ -34,7 +32,12 @@ app.configure('development', function () {
 	app.use(express.errorHandler());
 });
 
-/** Create an HTTP server with our express app object */
+/** Setup routing, serve files from the public directory */
+app.get('/*', function (req, res) {
+	res.sendfile(__dirname + '/public/' + req.params[0]);
+});
+
+/** Create an HTTP server with our configured express app object */
 var server = http.createServer(app).listen(app.get('port'), function() {
 	console.log('\nExpress server listening port ' + app.get('port') + '\n');
 });
@@ -42,13 +45,55 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 /** Get our global Socket.IO object for our server */
 var io = require('socket.io').listen(server);
 
-/** Setup basic routing */
-app.get('/*', function (req, res) {
-	res.sendfile(__dirname + '/public/' + req.params[0]);
-});
-
-/** Handle events */
+/** Setup and define connection handler */
 io.sockets.on('connection', onConnection);
+
+/** Maps UUIDs to client socket references */
+var clientMap = {};
+
+/** Maps room names to game references */
+var gameList = [];
+
+function onConnection(socket) {
+	if (!accept(socket)) refuse(socket);
+
+	if (gameList.length === 0) {
+		gameList.push(new Game(io, socket));
+	} else {
+		var gameFound = false;
+	
+		for (var i = 0; i < gameList.length; i++) {
+			if (!gameList[i].isFull()) {
+				gameList[i].join(socket);
+				gameFound = true;
+				break;
+			}
+		}
+		if (!gameFound) gameList.push(new Game(io, socket));
+	}
+
+	socket.on('disconnect', function () {
+		numConnections--;
+	});	
+}
+
+/** Checks if we are at maximum capacity before fully connecting with client,
+	If client is accepted, true is returned. False is returned otherwise. */
+function accept(socket) {
+	if (++numConnections <= MAX_CONNECTIONS) {
+		socket.emit('connected', {numUsers: numConnections});
+		return true;
+	}
+	else return false;
+}
+
+/** If we are over capacity, call this function to send a msg
+    and begin delayed disconnect */
+function refuse(socket) {
+	socket.emit('overCapacity');
+	socket.disconnect();
+	numConnections--;
+}
 
 /** Handle Ctrl-C Signal, shutdown gracefully */
 process.on('SIGINT', function() {
@@ -56,32 +101,3 @@ process.on('SIGINT', function() {
 	process.exit();
 });
 
-function onConnection(socket) {
-	/** Use node-uuid to create a unique ID for our new client */
-	var cli = new Client(socket, uuid());
-	clientMap[cli.id] = cli;
-	
-	if (++numConnections !== MAX_CONNECTIONS) {
-		socket.emit('connected', {id: cli.id, numUsers: numConnections});
-		socket.broadcast.emit('userJoined', {id: cli.id, numUsers: numConnections});
-	}
-	else refuse(socket);
-	
-	socket.on('disconnect', function () {
-		socket.broadcast.emit('userLeaving', {id: cli.id, numUsers: numConnections});
-		removeClient(cli.id);
-		numConnections--;
-	});
-}
-
-/** If we are over capacity, call this function to send a msg
-    and begin delayed disconnect */
-function refuse(socket) {
-	socket.emit('overCapacity');
-	setTimeout(function () {
-		socket.disconnect();
-	}, 500);
-}
-
-function getNumClients() { return Object.keys(clientMap).length; }
-function removeClient(clientID) { delete clientMap[clientID]; }
