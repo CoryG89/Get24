@@ -9,7 +9,7 @@ var Client = require('./client.js');	// Server-side representation of client
 var Game = require('./game.js');
 
 /** Server preset constants */
-var MAX_CONNECTIONS = 10;		// 0 for no limit
+var MAX_CONNECTIONS = 100;		// 0 for no limit
 
 /** No. of currently connected, dynamically updated by the server */
 var numConnections = 0;		

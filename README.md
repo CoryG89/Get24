@@ -1,13 +1,14 @@
 Get24
 ===============
 <p>
-  A real-time competitive multiplayer math game written in JavaScript from back to front. I use a server stack consisting of the following:
+  Get24 is a competetive real-time multiplayer math game that I wrote for my game development course. Check out my <strong><a href='http://get24.jit.su/'>live server</a></strong>! The game was built using Ubuntu Linux using nothing but open source software and libaries. The game server uses the following technologies:
 </p>
 
 <ul>
-  <li><strong><a href='http://nodejs.org'>Node.JS</a></strong> - Server-side javascript interpreter using Chrome's V8 Javascript engine.</li>
-  <li><strong><a href='http://expressjs.com'>Express 3</a></strong> - Popular web application framework similar to Sinatra for Node.JS</li>
-  <li><strong><a href='http://socket.io'>Socket.IO</a></strong> - Websocket API with fallbacks for realtime communications</li>
+  <li><strong><a href='http://nodejs.org/'>Node.JS</a></strong> - Server-side javascript interpreter using Chrome's V8 Javascript engine.</li>
+  <li><strong><a href='http://expressjs.com/'>Express 3</a></strong> - Popular web application framework similar to Sinatra for Node.JS</li>
+  <li><strong><a href='http://socket.io/'>Socket.IO</a></strong> - Websocket API with fallbacks for realtime communications</li>
+  <li><strong><a href='http://silentmatt.com/javascript-expression-evaluator/'>Javascript Expression Evaluator</a></strong> - An arithmetical expression evaluator/parser written in javascript</li>
 </ul>
 
 <p>
@@ -15,8 +16,9 @@ Get24
 </p>
 
 <ul>
-  <li><strong><a href='http://jquery.com'>jQuery 1.9</a></strong> - Easy DOM manipulation/referencing.</li>
-  <li><strong><a href='http://kineticjs.com'>KineticJS</a></strong> - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.</li>
+  <li><strong><a href='http://twitter.github.com/bootstrap/'>Twitter Bootstrap</a> - CSS framework
+  <li><strong><a href='http://jquery.com/'>jQuery 1.9</a></strong> - Easy DOM manipulation/referencing.</li>
+  <li><strong><a href='http://kineticjs.com/'>KineticJS</a></strong> - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.</li>
 </ul>
 
 <p>

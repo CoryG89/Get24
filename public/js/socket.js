@@ -47,6 +47,10 @@ var connectSocket = function () {
 		} else showEvaluatedText(data.evaluated.toString(), '#dd0000');
 	});
 	
+	socket.on('invalidExpr', function (data) {
+		showEvaluatedText(data.msg, '#dd0000');
+	});
+	
 	socket.on('timer', function (data) {
 		timerText.setText('Timer: ' + data.time);
 		activeLayer.draw();

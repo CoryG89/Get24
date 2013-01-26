@@ -24,17 +24,22 @@
 		<div class='container' id='container'></div>
 		<div class='input-append'>
 		<input type='text' id='evalInput' disabled />
-		<div class='btn btn-primary disabled' id='submitButton'>Submit <i class='icon-chevron-right icon-white'></i></div>
+			<div class='btn btn-primary disabled' id='submitButton'>Submit 
+			<i class='icon-chevron-right icon-white'></i></div>
 		</div>
 	</div>
-
-	<!-- Include custom client side javascript utils -->
-	<script type='text/ecmascript' src='js/utils.js'></script>
 	
 	<!-- Include custom Socket.IO functionality and event handlers -->
 	<script type='text/ecmascript' src='js/socket.js'></script>
 
 	<script>
+		var colors = {
+			primaryBlue: '#03244d',
+			primaryOrange: '#dd550c',
+			secondaryBlue: '#496e9c',
+			secondaryOrange: '#f68026'
+		};
+		
 		var containerWidth = $('#container').css('width');
 		containerWidth = containerWidth.substring(0, containerWidth.length - 2);
 	
@@ -44,29 +49,14 @@
 			height: 250
 		});
 		
-		$('#evalInput').focus(function () {
-			var boxShadow = 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(3,36,77,.6)';
-			$('#submitButton').css('-moz-box-shadow', boxShadow);
-			$('#submitButton').css('-webkit-box-shadow', boxShadow);
-			$('#submitButton').css('box-shadow', boxShadow);
-		});
-		
-		$('#evalInput').focusout(function () {
-			$('#submitButton').css('-moz-box-shadow', 'none');
-			$('#submitButton').css('-webkit-box-shadow', 'none');
-			$('#submitButton').css('box-shadow', 'none');
-		});
-		
-		var splashLayer = new Kinetic.Layer();
-		var activeLayer = new Kinetic.Layer();
-		
 		var stageCenter = {
 			x: stage.getWidth() / 2,
 			y: stage.getHeight() / 2
 		};
 		
+		var splashLayer = new Kinetic.Layer();
+		var activeLayer = new Kinetic.Layer();
 		
-				
 		var titleText = new Kinetic.Text({
 			x: stageCenter.x, y: 20,
 			fill: colors.primaryOrange, stroke: colors.primaryBlue,
@@ -87,9 +77,7 @@
 		splashLayer.add(descText);
 
 		stage.add(splashLayer);
-	
-		
-		
+
 		
 		var cardText = [];
 		for(var i = 0; i < 4; i++) {
@@ -215,11 +203,11 @@
 		function showMainMessage(msg) {
 			mainMsg.setText(msg);
 			mainMsg.setX(stageCenter.x - mainMsg.getWidth() / 2);
-			anim.start();
+			mainMsgAnim.start();
 		}
 		
 		function stopMainMessage(callback) {
-			anim.stop();
+			mainMsgAnim.stop();
 			mainMsg.transitionTo({
 				opacity: 0, duration: 1, callback: callback
 			});
@@ -269,6 +257,13 @@
 		
 		
 		stage.add(activeLayer);
+				
+				
+		var mainMsgAnim = new Kinetic.Animation(function (frame) {
+			mainMsg.setOpacity(Math.abs(Math.sin(frame.time / 1000)));
+			activeLayer.draw();
+		}, activeLayer);
+		
 		function onMouseOverButton() {
 			this.children[0].setFill(colors.secondaryOrange);
 			document.body.style.cursor = 'pointer';
@@ -281,10 +276,18 @@
 			activeLayer.draw();
 		}
 				
-		var anim = new Kinetic.Animation(function (frame) {
-			mainMsg.setOpacity(Math.abs(Math.sin(frame.time / 1000)));
-			activeLayer.draw();
-		}, activeLayer);
+		$('#evalInput').focus(function () {
+			var boxShadow = 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(3,36,77,.6)';
+			$('#submitButton').css('-moz-box-shadow', boxShadow);
+			$('#submitButton').css('-webkit-box-shadow', boxShadow);
+			$('#submitButton').css('box-shadow', boxShadow);
+		});
+		
+		$('#evalInput').focusout(function () {
+			$('#submitButton').css('-moz-box-shadow', 'none');
+			$('#submitButton').css('-webkit-box-shadow', 'none');
+			$('#submitButton').css('box-shadow', 'none');
+		});
 		
 		$('#evalInput').on('keydown', function (e) {
 			var code = e.keyCode ? e.keyCode : e.which;

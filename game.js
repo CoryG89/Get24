@@ -7,7 +7,6 @@ var Game = function (io, socket) {
 	var player = [];
 	
 	var timer = Game.INITIAL_TIMER;
-	var timerInterval = undefined;
 	
 	this.roomName = uuid();
 	
@@ -44,23 +43,17 @@ var Game = function (io, socket) {
 		var rnd = Math.random() * 10;
 		
 		if (rnd <= 5) { /** 50% of the time we will use medium difficulty cards */
-			return (function () {
 				var rnd = Math.floor(Math.random() * 24);
 				
 				return Game.Cards.med[rnd];
-			})();
 		} else if (rnd <= 8) { /** 30% of the time we will use easy cards */
-			return (function () {
 				var rnd = Math.floor(Math.random() * 12);
 				
 				return Game.Cards.easy[rnd];
-			})();
-		} else {
-			return (function () { /** 20% of the time we will use hard cards */
+		} else { /** 20% of the time we will use hard cards */
 				var rnd = Math.floor(Math.random() * 11);
 				
 				return Game.Cards.hard[rnd];
-			})();
 		}	
 	}
 	function startTimer() {
