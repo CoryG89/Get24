@@ -184,17 +184,26 @@
 			x:10, y:10
 		});
 		var helpDialogRect = new Kinetic.Rect({
-			x:10, y:10, width: 460, height: 220, fill: colors.primaryOrange,
+			x:0, y:0, width: stage.getWidth() - 25, 
+			height: stage.getHeight() - 40, fill: colors.primaryOrange, 
 			stroke: colors.primaryBlue, strokeWidth: 4, cornerRadius: 10
 		});
+		
+		var helpDialogCenter = { 
+			x: helpDialogRect.getWidth() / 2,
+			y: helpDialogRect.getHeight() / 2 
+		}
+		
 		var helpMessage = 'How to Play\n\nThe object of Get24 is to create ' +
 			'a arithmetical expression, using the four digits shown and some' +
 			' combination of the four basic arithmetical operators, which ' +
-			'will evaluate to 24. The first player to do so wins.';
+			'will evaluate to 24. The first player to do so wins.\n\n' +
+			'Each of the four digits given must be used exactly once. ' +
+			'Legal operators are  + - * / ()'; 
 		var helpDialogText = new Kinetic.Text({
-			x: 10, y:10, width: 460, height: 220, padding: 30, align: 'center',
-			fill: colors.primaryBlue, fontFamily: 'Impact', fontSize: 20,
-			text: helpMessage
+			x: 0, y:0, align: 'center', padding: 10, text: helpMessage,
+			height: stage.getHeight() - 40, width: stage.getWidth() - 25,
+			fill: colors.primaryBlue, fontFamily: 'Impact', fontSize: 16,
 		});
 		
 		helpDialog.add(helpDialogRect);
