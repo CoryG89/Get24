@@ -10,9 +10,9 @@
  */
 
 /** Import required modules */
-var uuid = require('node-uuid');		// Easy UUID generation
-var Parser = require('./parser.js');	// JavaScript Expression Evaluator
-var Timer = require('./timer.js');		// Custom callback timer
+var uuid = require('node-uuid');				// Easy UUID generation
+var Parser = require('node-expression-eval');	// JavaScript Expression Evaluator
+var Timer = require('./timer.js');				// Custom callback timer
 
 var Game = function (io) {
 	
