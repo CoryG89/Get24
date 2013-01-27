@@ -11,6 +11,8 @@
 		<script type='text/ecmascript' src='js/kinetic-v4.3.1.min.js'></script>
 		<!-- Local jQuery 1.9, for easy DOM manipulation/referencing, etc -->
 		<script type='text/ecmascript' src='js/jquery-1.9.0.min.js'></script>
+		<!-- jQuery Virtual Mouse Plugin for fast mobile event callbacks -->
+		<script type='text/ecmascript' src='js/jquery.mobile.vmouse.js'></script>
 		<!-- Client-side Socket.IO API, symbolic path handled by the server -->
 		<script type='text/ecmascript' src='/socket.io/socket.io.js'></script>
 		<!-- Twitter Bootstrap Javascript backend -->
@@ -156,7 +158,7 @@
 		
 		playButton.on('mouseover', onMouseOverKineticButton);
 		playButton.on('mouseout', onMouseOutKineticButton);
-		playButton.on('click', connectSocket);
+		playButton.on('click tap', connectSocket);
 	
 		playButton.add(playButtonRect);
 		playButton.add(playButtonText);
@@ -180,7 +182,7 @@
 		
 		helpButton.on('mouseover', onMouseOverKineticButton);
 		helpButton.on('mouseout', onMouseOutKineticButton);
-		helpButton.on('click', function () {
+		helpButton.on('click tap', function () {
 			activeLayer.add(helpDialog);
 			activeLayer.draw();
 		});
@@ -216,7 +218,7 @@
 		helpDialog.add(helpDialogRect);
 		helpDialog.add(helpDialogText);		
 		
-		helpDialog.on('click', function () {
+		helpDialog.on('click tap', function () {
 			helpDialog.remove();
 			activeLayer.draw();
 		});
@@ -317,7 +319,7 @@
 				socket.emit('submitExpression', { expression: $('#evalInput').val() });
 			}
 		});
-		$('#submitButton').on('click', function () {
+		$('#submitButton').on('vclick', function () {
 			socket.emit('submitExpression', { expression: $('#evalInput').val() });
 		});
 		
