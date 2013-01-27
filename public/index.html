@@ -115,13 +115,13 @@
 			}
 		}
 		function resetCardText() {
-			cardTextVisible = false;
 			for (var i = 0; i < cardText.length; i++) {
 				cardText[i].setVisible(false);
 				cardText[i].setOpacity(1);
 				cardText[i].setX(-150);
 				activeLayer.draw();
 			}
+			cardTextVisible = false;
 		}
 		
 		function initializeCardText(card) {

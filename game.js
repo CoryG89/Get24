@@ -63,13 +63,14 @@ var Game = function (io) {
 			
 				socket.emit('evaluatedExpr', { evaluated: evaluated });
 				if (evaluated === 24) {
-					socket.emit('youWin');
-					socket.broadcast.to(gameID).emit('youLose', {expression: data.expression});
-					setTimeout(function () {
-						gameTimer.restart();
-						gameCard = getRandomCard();
-						io.sockets.in(gameID).emit('newCard', {card: gameCard});
-					}, 6000);
+					gameTimer.restart();
+					gameCard = getRandomCard();
+				
+					socket.emit('youWin', { card: gameCard });
+					socket.broadcast.to(gameID).emit('youLose', {
+						expression: data.expression,
+						card: gameCard
+					});
 				}
 		
 			} else if (res === -1) {

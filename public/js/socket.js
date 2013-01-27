@@ -87,18 +87,26 @@ var connectSocket = function () {
 		console.log('You lose, correct expression was --> ' + data.expression);
 		showEvaluatedText(data.expression, '#dd0000');
 		fadeCardText( function () {
-			resetCardText();
 			showMainMessage('Sorry, you lose!');
-			setTimeout(function () { stopMainMessage(); }, 5000);
+			setTimeout(function () { 
+				stopMainMessage(function () {
+					resetCardText();
+					animateCardText(data.card);
+				}); 
+			}, 5000);
 		});
 	});
 	
-	socket.on('youWin', function () {
+	socket.on('youWin', function (data) {
 		console.log('You win!');
 		fadeCardText(function () {
-			resetCardText();
 			showMainMessage('You win!');
-			setTimeout(function () { stopMainMessage(); }, 5000);
+			setTimeout(function () { 
+				stopMainMessage(function () {
+					resetCardText();
+					animateCardText(data.card);
+				});
+			}, 5000);
 		});
 	});
 }
