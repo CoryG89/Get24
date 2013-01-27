@@ -58,46 +58,47 @@ var connectSocket = function () {
 	
 	var waiting = false;
 	
-	socket.on('gameCard', function (data) {
-		var card = data.card;
-	
-		if (waiting) stopMainMessage(function () {
-			waiting = false;
-			initialSetup(card);
-		});
-		else initialSetup(card);
-	});
-	
-	function initialSetup(card) {
-		animateCardText(card);
-		$('#evalInput').prop('disabled', false);
-		$('#submitButton').removeClass('disabled');
-		playersText.setVisible(true);
-		timerText.setVisible(true);
-	}
-	
-	socket.on('newCard', function (data) {
-		resetCardText();
-		animateCardText(data.card);
-	});
-	
 	socket.on('waiting', function () {
 		waiting = true;
 		showMainMessage('Waiting for opponents');
 	});
 	
+	socket.on('gameCard', function (data) {
+		var card = data.card;
+	
+		if (waiting) stopMainMessage(function () {
+			waiting = false;
+			initializeCardText(card);
+		});
+		else initializeCardText(card);
+	});
+	
+	socket.on('newCard', function (data) {
+		if (!cardTextVisible) animateCardText(data.card);
+		else {
+			fadeCardText(function () {
+				resetCardText();
+				animateCardText(data.card);
+			});
+		}
+	});
+	
 	socket.on('youLose', function (data) {
 		console.log('You lose, correct expression was --> ' + data.expression);
-		resetCardText();
 		showEvaluatedText(data.expression, '#dd0000');
-		showMainMessage('Sorry, you lose!');
-		setTimeout(function () { stopMainMessage(); }, 5000);
+		fadeCardText( function () {
+			resetCardText();
+			showMainMessage('Sorry, you lose!');
+			setTimeout(function () { stopMainMessage(); }, 5000);
+		});
 	});
 	
 	socket.on('youWin', function () {
 		console.log('You win!');
-		resetCardText();
-		showMainMessage('You win!');
-		setTimeout(function () { stopMainMessage(); }, 5000);
+		fadeCardText(function () {
+			resetCardText();
+			showMainMessage('You win!');
+			setTimeout(function () { stopMainMessage(); }, 5000);
+		});
 	});
 }

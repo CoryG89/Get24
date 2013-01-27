@@ -58,7 +58,8 @@ function onConnection(socket) {
 	if (!accept(socket)) refuse(socket);
 
 	if (gameList.length === 0) {
-		gameList.push(new Game(io, socket));
+		gameList.push(new Game(io));
+		gameList[0].join(socket);
 	} else {
 		var gameFound = false;
 	
@@ -69,7 +70,10 @@ function onConnection(socket) {
 				break;
 			}
 		}
-		if (!gameFound) gameList.push(new Game(io, socket));
+		if (!gameFound) {
+			gameList.push(new Game(io));
+			gameList[gameList.length - 1].join(socket);
+		}
 	}
 
 	socket.on('disconnect', function () {
