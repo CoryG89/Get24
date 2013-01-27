@@ -1,3 +1,4 @@
+/** Get24 'game card' data of 3 difficulty levels */
 var gameCards = { };
 
 gameCards.easy = [

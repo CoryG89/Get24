@@ -42,9 +42,14 @@ Get24
 </ul>
 
 <p>
-  All technologies used are open source. 
+  All technologies used in the creation of this project are open source. 
 </p>
 
 <p>
-  The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. The first player that can craft an arithmetical expression using all four of the digits once and only once is the winner. Players may use the four basic arithemtical operators (along with parenthesis to force precedence) in their expressions (+ - * /) and may use them more than once.
+	The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. The first player that can craft an arithmetical expression using all four of the digits once and only once is the winner. Players may use the four basic arithemtical operators (along with parenthesis to force precedence) in their expressions (+ - * /) and may use them more than once.
+</p>
+
+<p>
+	Here is a <strong><a href='http://youtu.be/gwTesvqwFWo'>
+	video of testing being done on the game server</a></strong> during development.
 </p>

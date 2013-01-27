@@ -1,23 +1,32 @@
-/** Include Required NPM Modules */
+/**
+ * app.js
+ * 
+ * Author: Cory Gross (cmg0030@tigermail.auburn.edu)
+ *
+ * Sets up an Node.JS HTTP server, using that to create an Express app.
+ * Initializes Socket.IO and configures a socket for the server to listen on
+ * for incoming socket connections. Handles incoming connections and manages 
+ * a list of games.
+ */
+
+/** Import required modules */
 var http = require('http');				// Node.JS HTTP Server
 var path = require('path');				// String File Path Handler
 var express = require('express');		// Express WebApp Framework
+var Game = require('./game.js');		// Custom Get24 Game Module
 
-/** Include Required Application Modules */
-var Client = require('./client.js');	// Server-side representation of client
+/** List of stored game obects and global connection counter */
+var gameList = [];
+var numConnections = 0;
 
-var Game = require('./game.js');
-
-/** Server preset constants */
+/** Server Presets */
 var MAX_CONNECTIONS = 100;		// 0 for no limit
-
-/** No. of currently connected, dynamically updated by the server */
-var numConnections = 0;		
+var PORT_NUM = 3001;
 
 /** Get express app object and set global configuration */
 var app = express();
 app.configure(function () {
-	app.set('port', process.env.PORT || 3001);
+	app.set('port', process.env.PORT || PORT_NUM);
 	app.use(express.favicon());
 	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
@@ -45,16 +54,7 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 /** Get our global Socket.IO object for our server */
 var io = require('socket.io').listen(server);
 
-/** Setup and define connection handler */
-io.sockets.on('connection', onConnection);
-
-/** Maps UUIDs to client socket references */
-var clientMap = {};
-
-/** Maps room names to game references */
-var gameList = [];
-
-function onConnection(socket) {
+io.sockets.on('connection', function (socket) {
 	if (!accept(socket)) refuse(socket);
 
 	if (gameList.length === 0) {
@@ -79,7 +79,7 @@ function onConnection(socket) {
 	socket.on('disconnect', function () {
 		numConnections--;
 	});	
-}
+});
 
 /** Checks if we are at maximum capacity before fully connecting with client,
 	If client is accepted, true is returned. False is returned otherwise. */

@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Get24</title>
-	
-	<!-- KineticJS canvas gfx library for ease of use, perf, layering -->
-	<script type='text/ecmascript' src='js/kinetic-v4.3.1.min.js'></script>
-	<!-- Local jQuery 1.9, for easy DOM manipulation/referencing, etc -->
-	<script type='text/ecmascript' src='js/jquery-1.9.0.min.js'></script>
-	<!-- Client-side Socket.IO API, symbolic path handled by the server -->
-	<script type='text/ecmascript' src='/socket.io/socket.io.js'></script>
-	
-	<script type='text/ecmascript' src='js/bootstrap.min.js'></script>
-	<link type='text/css' rel='stylesheet' href='css/bootstrap.min.css' />
-	<link type='text/css' rel='stylesheet' href='css/bootstrap-responsive.min.css' />
-	
-	<!-- Apply our own custom stylesheet last, to override anything else -->
-	<link type='text/css' rel='stylesheet' href='css/custom.css' />
-</head>
+	<head>
+		<title>Get24</title>
+		
+		<!-- Author: Cory Gross (cmg0030@tigermail.auburn.edu) -->
+		<!-- Last Modified: January 26, 2013 -->
+		<!-- Server source code at http://github.com/CoryG89/Get24 -->
+		
+		<!-- KineticJS canvas gfx library for ease of use, perf, layering -->
+		<script type='text/ecmascript' src='js/kinetic-v4.3.1.min.js'></script>
+		<!-- Local jQuery 1.9, for easy DOM manipulation/referencing, etc -->
+		<script type='text/ecmascript' src='js/jquery-1.9.0.min.js'></script>
+		<!-- Client-side Socket.IO API, symbolic path handled by the server -->
+		<script type='text/ecmascript' src='/socket.io/socket.io.js'></script>
+		<!-- Twitter Bootstrap Javascript backend -->
+		<script type='text/ecmascript' src='js/bootstrap.min.js'></script>
+		<!-- Twitter Bootstrap CSS Framework -->
+		<link type='text/css' rel='stylesheet' href='css/bootstrap.min.css' />
+		<link type='text/css' rel='stylesheet' href='css/bootstrap-responsive.min.css' />
+		<!-- Apply our own custom stylesheet last, to override anything else -->
+		<link type='text/css' rel='stylesheet' href='css/custom.css' />
+	</head>
 <body>
-	
 	<!-- KineticJS wrapper && stage container -->
 	<div class='container' id='wrapper'>	
 		<div class='container' id='container'></div>
@@ -33,31 +36,36 @@
 	<script type='text/ecmascript' src='js/socket.js'></script>
 
 	<script>
-		var colors = {
+		var colors = {		/** Color presets for customization, AU colors! */
 			primaryBlue: '#03244d',
 			primaryOrange: '#dd550c',
 			secondaryBlue: '#496e9c',
 			secondaryOrange: '#f68026'
 		};
 		
+		/** Precalculate width of KineticJS stage based on container width */
 		var containerWidth = $('#container').css('width');
 		containerWidth = containerWidth.substring(0, containerWidth.length - 2);
 		containerWidth = parseInt(containerWidth);
 		
+		/** Create KineticJS Stage and calculate its center point to offset from */
 		var stage = new Kinetic.Stage({
 			container: 'container',
 			width: containerWidth,
 			height: 250
 		});
-		
 		var stageCenter = {
 			x: stage.getWidth() / 2,
 			y: stage.getHeight() / 2
 		};
 		
+		/** Create all needed KineticJS layers */
 		var splashLayer = new Kinetic.Layer();
 		var activeLayer = new Kinetic.Layer();
 		
+		/** Create Title and Description text objects, these will
+			be on their own layer because they only need to be drawn
+			once. */
 		var titleText = new Kinetic.Text({
 			x: stageCenter.x, y: 20,
 			fill: colors.primaryOrange, stroke: colors.primaryBlue,
@@ -76,10 +84,9 @@
 	
 		splashLayer.add(titleText);
 		splashLayer.add(descText);
-
 		stage.add(splashLayer);
 
-		
+		/** Create text objects to hold each of our card digits */
 		var cardText = [];
 		var cardTextVisible = false;
 		for(var i = 0; i < 4; i++) {
@@ -90,6 +97,13 @@
 				stroke: colors.primaryBlue, strokeWidth: 4, visible: false
 			});
 			activeLayer.add(cardText[i]);
+		}
+		function initializeCardText(card) {
+				animateCardText(card);
+				$('#evalInput').prop('disabled', false);
+				$('#submitButton').removeClass('disabled');
+				playersText.setVisible(true);
+				timerText.setVisible(true);
 		}
 		function animateCardText(cardVector) {
 			for (var i = 0; i < cardText.length; i++) {
@@ -124,14 +138,7 @@
 			cardTextVisible = false;
 		}
 		
-		function initializeCardText(card) {
-				animateCardText(card);
-				$('#evalInput').prop('disabled', false);
-				$('#submitButton').removeClass('disabled');
-				playersText.setVisible(true);
-				timerText.setVisible(true);
-		}
-		
+		/** Play button and help button, along with their events */
 		var playButton = new Kinetic.Group({
 			x: stageCenter.x - 65, 
 			y: stageCenter.y + 40
@@ -147,8 +154,8 @@
 			fontSize: 20, text: 'PLAY'
 		});
 		
-		playButton.on('mouseover', onMouseOverButton);
-		playButton.on('mouseout', onMouseOutButton);
+		playButton.on('mouseover', onMouseOverKineticButton);
+		playButton.on('mouseout', onMouseOutKineticButton);
 		playButton.on('click', connectSocket);
 	
 		playButton.add(playButtonRect);
@@ -171,8 +178,8 @@
 		helpButton.add(helpButtonRect);
 		helpButton.add(helpButtonText);
 		
-		helpButton.on('mouseover', onMouseOverButton);
-		helpButton.on('mouseout', onMouseOutButton);
+		helpButton.on('mouseover', onMouseOverKineticButton);
+		helpButton.on('mouseout', onMouseOutKineticButton);
 		helpButton.on('click', function () {
 			activeLayer.add(helpDialog);
 			activeLayer.draw();
@@ -214,7 +221,7 @@
 			activeLayer.draw();
 		});
 
-
+		/** Main center message text */
 		var mainMsg = new Kinetic.Text({
 			x: stageCenter.x, y: 140, fill: colors.primaryOrange, 
 			stroke: colors.primaryBlue, fontFamily: 'Impact', fontStyle: 'bold', 
@@ -238,7 +245,7 @@
 		}
 		activeLayer.add(mainMsg);
 		
-				
+		/** Number of players, and timer labels */
 		var playersText = new Kinetic.Text({
 			x: stageCenter.x - 160, y: 220, fill: colors.primaryBlue, fontFamily: 'Impact', 
 			fontSize: 20, text: 'Players: ', visible: false
@@ -251,7 +258,7 @@
 		});
 		activeLayer.add(timerText);
 		
-		
+		/** Evaluated expression label */
 		var evaluatedText = new Kinetic.Text({
 			x: stageCenter.x, y: 222, fontFamily: 'Impact', 
 			fontSize: 14, visible: false
@@ -280,38 +287,36 @@
 		
 		stage.add(activeLayer);
 				
-		function onMouseOverButton() {
+		function onMouseOverKineticButton() {
 			this.children[0].setFill(colors.secondaryOrange);
 			document.body.style.cursor = 'pointer';
 			activeLayer.draw();
 		}
 	
-		function onMouseOutButton() {
+		function onMouseOutKineticButton() {
 			this.children[0].setFill(colors.primaryOrange);
 			document.body.style.cursor = 'auto';
 			activeLayer.draw();
 		}
-				
+		
+		/** Attach jQuery events */
 		$('#evalInput').focus(function () {
 			var boxShadow = 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(3,36,77,.6)';
 			$('#submitButton').css('-moz-box-shadow', boxShadow);
 			$('#submitButton').css('-webkit-box-shadow', boxShadow);
 			$('#submitButton').css('box-shadow', boxShadow);
 		});
-		
 		$('#evalInput').focusout(function () {
 			$('#submitButton').css('-moz-box-shadow', 'none');
 			$('#submitButton').css('-webkit-box-shadow', 'none');
 			$('#submitButton').css('box-shadow', 'none');
 		});
-		
 		$('#evalInput').on('keydown', function (e) {
 			var code = e.keyCode ? e.keyCode : e.which;
 			if (code == 13) {
 				socket.emit('submitExpression', { expression: $('#evalInput').val() });
 			}
 		});
-
 		$('#submitButton').on('click', function () {
 			socket.emit('submitExpression', { expression: $('#evalInput').val() });
 		});

@@ -32,7 +32,6 @@
  *		tickCallback --> undefined;
  *		finalCallback --> undefined;
  *		loop --> false;
- *
  **/
 
 function Timer (config) {
