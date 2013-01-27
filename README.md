@@ -59,13 +59,13 @@ Get24
 
 <h2>Build</h2>
 <p>In order to build my project either download the compressed project or pull it with git:</p>
-<code>#   git clone http://github.com/CoryG89/Get24</code>
+<pre>#   git clone http://github.com/CoryG89/Get24</pre>
 <p>
 	You'll need to have Node.JS and it's package manager NPM installed in order to build the server. To do so, run the following commands to install its dependencies and start the server.
 </p>
-<code>#   npm install -d</code>
-<code>#   node app.js</code>
+<pre>#   npm install -d</pre>
+<pre>#   node app.js</pre>
 <p>
 	The server runs on port 3001 by default so you may access it in your browser using localhost like so:
 </p>
-<code>http://localhost:3001/</code>
+<pre>http://localhost:3001/</pre>
