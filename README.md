@@ -1,9 +1,10 @@
 Get24
 ===============
 <p>
-  Get24 is a competetive real-time multiplayer math game that I wrote for my game development course. Check out my 
-  <strong><a href='http://get24.jit.su/'>live server</a></strong> running currently on a cloud instance by 
-  my good friends at <strong><a href='http://nodejitsu.com/'>Nodejitsu!</a></strong>
+  Get24 is a competetive real-time multiplayer math game that I wrote for a Spring 
+  2013 semester project for a game development course at Auburn University. Check out my 
+  <strong><a href='http://get24.jit.su/'>live server</a></strong> running currently on a cloud 
+  instance by my good friends at <strong><a href='http://nodejitsu.com/'>Nodejitsu!</a></strong>
 </p>
 
 <h2>Components</h2>
