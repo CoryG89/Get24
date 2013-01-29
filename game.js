@@ -77,17 +77,19 @@ var Game = function (io) {
 				try { data.evaluated = Parser.evaluate(data.expression); } 
 				catch(e) {	
 					passedEval = false;
-					console.log(e);
 					socket.emit('invalidExpr', {msg: 'Invalid.'});
 				} finally {
 					if (passedEval)	emitEvaluation(socket, data);
 				}
 			}
 			else if (res === -1) {
-				socket.emit('invalidExpr', {msg: 'You must use all four digits shown.'});
+				socket.emit('invalidExpr', {msg: 'Must use all 4 digits.'});
 			}
 			else if (res === -2) {
-				socket.emit('invalidExpr', {msg: "Legal operators are '+-*/()'."});		
+				socket.emit('invalidExpr', {msg: 'Legal operators are \'+-*/()\'.'});		
+			}
+			else if (res === -3) {
+				socket.emit('invalidExpr', {msg: 'Digits can\'t be combined.'});
 			}
 		});
 	}
@@ -103,6 +105,7 @@ var Game = function (io) {
 		for (var i = 0; i < gameCard.length; i++) {
 			var res = temp.search(gameCard[i]);
 			if (res < 0) return -1;
+			else if (res < temp.length - 1 && !isNaN(parseInt(temp[res+1]))) return -3;
 			else temp = temp.replace(temp[res],'');
 		}
 		

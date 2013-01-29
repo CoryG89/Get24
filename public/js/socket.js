@@ -85,8 +85,8 @@ var connectSocket = function () {
 	
 	socket.on('youLose', function (data) {
 		console.log('You lose, correct expression was --> ' + data.expression);
-		showEvaluatedText(data.expression, '#dd0000');
-		fadeCardText( function () {
+		showEvaluatedText(data.expression, '#dd0000', false, 5000);
+		fadeCardText(function () {
 			showMainMessage('Sorry, you lose!');
 			setTimeout(function () { 
 				stopMainMessage(function () {

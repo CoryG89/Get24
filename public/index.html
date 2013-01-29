@@ -163,7 +163,7 @@
 		playButton.add(playButtonRect);
 		playButton.add(playButtonText);
 		activeLayer.add(playButton);
-		
+
 		var helpButton = new Kinetic.Group({
 			x: stageCenter.x + 65,
 			y: stageCenter.y + 40
@@ -188,7 +188,7 @@
 		});
 		activeLayer.add(helpButton);
 
-
+		/** Pop-up help dialog */
 		var helpDialog = new Kinetic.Group({
 			x:10, y:10
 		});
@@ -265,7 +265,7 @@
 			x: stageCenter.x, y: 222, fontFamily: 'Impact', 
 			fontSize: 14, visible: false
 		});		
-		function showEvaluatedText(txt, fill) {
+		function showEvaluatedText(txt, fill, blink, time) {
 			evaluatedText.setText(txt);
 			evaluatedText.setFill(fill);
 			evaluatedText.setX(stageCenter.x - evaluatedText.getWidth() / 2);
@@ -273,14 +273,15 @@
 			activeLayer.draw();
 			
 			var blinkInterval = undefined;
+			var willBlink = blink || true;
 			
 			setTimeout(function () {
-				clearInterval(blinkInterval);
+				if (willBlink) clearInterval(blinkInterval);
 				evaluatedText.setVisible(false);
 				evaluatedText.setText('');
 				activeLayer.draw();
-			}, 2000);
-			blinkInterval = setInterval(function () {
+			}, time || 2000);
+			if (willBlink) blinkInterval = setInterval(function () {
 				evaluatedText.setVisible(!evaluatedText.getVisible());
 				activeLayer.draw();
 			}, 300);
@@ -317,10 +318,12 @@
 			var code = e.keyCode ? e.keyCode : e.which;
 			if (code == 13) {
 				socket.emit('submitExpression', { expression: $('#evalInput').val() });
+				$('#evalInput').val('');
 			}
 		});
 		$('#submitButton').on('vclick', function () {
 			socket.emit('submitExpression', { expression: $('#evalInput').val() });
+			$('#evalInput').val('');
 		});
 		
 	</script>
