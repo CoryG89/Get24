@@ -1,10 +1,15 @@
 Get24
 ===============
 <p>
-  Get24 is a competetive real-time multiplayer math game that I wrote for my game development course. Check out my <strong><a href='http://get24.jit.su/'>live server</a></strong>! The game was built using Ubuntu Linux using nothing but open source software and libaries. The game server uses the following technologies:
+  Get24 is a competetive real-time multiplayer math game that I wrote for a Spring 
+  2013 semester project for a game development course at Auburn University. Check out my 
+  <strong><a href='http://get24.jit.su/'>live server</a></strong> running currently on a cloud 
+  instance by my good friends at <strong><a href='http://nodejitsu.com/'>Nodejitsu!</a></strong>
 </p>
 
 <h2>Components</h2>
+<p>Get24 was built using Ubuntu Linux using nothing but open source software and libaries. 
+The game server was built with the following technologies:
 <ul>
  	<li>
 	 	<strong> <a href='http://nodejs.org/'><strong>Node.JS</a></strong> 
@@ -22,7 +27,7 @@ Get24
  		<strong><a href='http://silentmatt.com/javascript-expression-evaluator/'>
  			Javascript Expression Evaluator
  		</a></strong>
- 		 - An arithmetical expression evaluator/parser written in javascript
+ 		 - An arithmetical expression evaluator/parser written in javascript. Built into the server via the node-expression-eval package for npm.
  	</li>
 </ul>
 
@@ -49,7 +54,11 @@ Get24
 <h2>Description</h2>
 
 <p>
-	The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. The first player that can craft an arithmetical expression using all four of the digits once and only once is the winner. Players may use the four basic arithemtical operators (along with parenthesis to force precedence) in their expressions (+ - * /) and may use them more than once.
+	The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. 
+	The first player that can craft an arithmetical expression using all four of the digits 
+	once and only once is the winner. Players may use the four basic arithemtical operators 
+	(along with parenthesis to force precedence) in their expressions (+ - * /) and may use 
+	them more than once.
 </p>
 
 <p>
@@ -59,19 +68,14 @@ Get24
 
 <h2>Build</h2>
 <p>In order to build my project either download the compressed project or pull it with git:</p>
-<ul>
-	<li>#   git clone http://github.com/CoryG89/Get24</li>
-</ul>
+<pre>#   git clone http://github.com/CoryG89/Get24</pre>
 <p>
-	You'll need to have Node.JS and it's package manager NPM installed in order to build the server. To do so, run the following commands to install its dependencies and start the server.
+	You'll need to have Node.JS and it's package manager NPM installed in order to build the server. 
+	If you have Node installed, run the following commands to install its dependencies and start the server.
 </p>
-<ul>
-	<li>#   npm install -d</li>
-	<li>#   node app.js</li>
-</ul>
+<pre>#   npm install -d</pre>
+<pre>#   node app.js</pre>
 <p>
 	The server runs on port 3001 by default so you may access it in your browser using localhost like so:
 </p>
-<ul>
-	<li>http://localhost:3001/</li>
-</ul>
+<pre>http://localhost:3001/</pre>
