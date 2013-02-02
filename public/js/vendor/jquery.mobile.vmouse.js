@@ -19,6 +19,8 @@
 //>>label: Virtual Mouse (vmouse) Bindings
 //>>group: Core
 
+//>>excludeEnd("jqmBuildExclude");
+
 (function( $, window, document, undefined ) {
 
 var dataPropertyName = "virtualMouseBindings",
@@ -505,3 +507,5 @@ if ( eventCaptureSupported ) {
 	}, true);
 }
 })( jQuery, window, document );
+//>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);
+//>>excludeEnd("jqmBuildExclude");

@@ -41,22 +41,13 @@ var Game = function (io) {
 	function connectPlayer(socket) {
 		attachSocket(socket);
 		playerCount++;
-		socket.emit('gameJoined', { room: gameID, numPlayers: playerCount });
+		socket.emit('gameJoined', {
+			room: gameID, 
+			card: gameCard, 
+			numPlayers: playerCount 
+		});
 		socket.broadcast.to(gameID).emit('playerJoined', {numPlayers: playerCount});
-		
-		switch (playerCount) {
-			case 2:
-				gameTimer.start();
-				io.sockets.in(gameID).emit('gameCard', {card: gameCard});
-				break;
-			case 3:
-			case 4:
-				socket.emit('gameCard', { card: gameCard });
-				break;
-			default: 
-				socket.emit('waiting');
-				break;
-		}
+		if (playerCount === 1) gameTimer.start();
 	}
 	
 	/** Joins the player socket to this game's Socket.IO channel and

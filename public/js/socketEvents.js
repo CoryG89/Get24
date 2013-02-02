@@ -15,10 +15,17 @@ var connectSocket = function () {
 		console.log('Game room joined --> ' + data.room);
 		console.log('Number of players in the room --> ' + data.numPlayers);
 		
+		removeButtons();
 		
-		playButton.remove();
-		helpButton.remove();
+		timerText.setVisible(true);
+		playersText.setVisible(true);
 		playersText.setText('Players: ' + data.numPlayers);
+		
+		$('#evalInput').prop('disabled', false);
+		$('#submitButton').removeClass('disabled');
+		
+		animateCardText(data.card);
+		
 		activeLayer.draw();
 	});
 
@@ -54,23 +61,6 @@ var connectSocket = function () {
 	socket.on('timer', function (data) {
 		timerText.setText('Timer: ' + data.time);
 		activeLayer.draw();
-	});
-	
-	var waiting = false;
-	
-	socket.on('waiting', function () {
-		waiting = true;
-		showMainMessage('Waiting for opponents');
-	});
-	
-	socket.on('gameCard', function (data) {
-		var card = data.card;
-	
-		if (waiting) stopMainMessage(function () {
-			waiting = false;
-			initializeCardText(card);
-		});
-		else initializeCardText(card);
 	});
 	
 	socket.on('newCard', function (data) {
