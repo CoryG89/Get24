@@ -1,11 +1,11 @@
-* Get24
+# Get24
 
 Get24 is a competetive real-time multiplayer math game that I wrote for a 
 Spring 2013 semester project for a game development course at Auburn University. 
 Check out my [**live web app**][1] running currently on a cloud instance from my
 good friends at [**Nodejitsu**][2]!
 
-** Components
+## Components
 
 Get24 was built using Ubuntu Linux using nothing but open source software and 
 libaries. The game server was built with the following technologies:
@@ -30,7 +30,7 @@ For the client, I am using the following open source libraries:
 
 All technologies used in the creation of this project are open source.
 
-** Description
+## Description
 
 The game consists of multiple players being shown four digits `(0-9)` and are 
 put on a timer. The first player that can craft an arithmetical expression using
@@ -41,7 +41,7 @@ in their expressions `(+ - * /)` and may use them more than once.
 Here is a [**YouTube video**][10] of testing being done on the server and game
 client during development.
 
-** Build
+## Build
 
 To build my project either download the compressed project or clone it with git:
 
