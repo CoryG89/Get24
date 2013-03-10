@@ -1,81 +1,71 @@
-Get24
-===============
-<p>
-  Get24 is a competetive real-time multiplayer math game that I wrote for a Spring 
-  2013 semester project for a game development course at Auburn University. Check out my 
-  <strong><a href='http://get24.jit.su/'>live server</a></strong> running currently on a cloud 
-  instance by my good friends at <strong><a href='http://nodejitsu.com/'>Nodejitsu!</a></strong>
-</p>
+* Get24
 
-<h2>Components</h2>
-<p>Get24 was built using Ubuntu Linux using nothing but open source software and libaries. 
-The game server was built with the following technologies:
-<ul>
- 	<li>
-	 	<strong> <a href='http://nodejs.org/'><strong>Node.JS</a></strong> 
-	 	- Server-side javascript interpreter using Chrome's V8 Javascript engine.
- 	</li>
- 	<li>
- 		<strong><a href='http://expressjs.com/'>Express 3</a></strong>
- 		 - Popular web application framework similar to Sinatra for Node.JS
- 	</li>
- 	<li>
- 		<strong><a href='http://socket.io/'>Socket.IO</a></strong>
- 		 - Websocket API with fallbacks for realtime communications
- 	</li>
- 	<li>
- 		<strong><a href='http://silentmatt.com/javascript-expression-evaluator/'>
- 			Javascript Expression Evaluator
- 		</a></strong>
- 		 - An arithmetical expression evaluator/parser written in javascript. Built into the server via the node-expression-eval package for npm.
- 	</li>
-</ul>
+Get24 is a competetive real-time multiplayer math game that I wrote for a 
+Spring 2013 semester project for a game development course at Auburn University. 
+Check out my [**live web app**][1] running currently on a cloud instance from my
+good friends at [**Nodejitsu**][2]!
 
-<p>For the client, I am using the following open source libraries:</p>
+** Components
 
-<ul>
-	<li>
-  		<strong><a href='http://twitter.github.com/bootstrap/'>Twitter Bootstrap</a></strong>
-  	 	- CSS framework
-  	</li>
-	<li>
-	  	<strong><a href='http://jquery.com/'>jQuery 1.9</a></strong>
-	  	 - Easy DOM manipulation/referencing.
-	</li>
-	<li><strong><a href='http://kineticjs.com/'>KineticJS</a></strong>
-	 - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.
-	</li>
-</ul>
+Get24 was built using Ubuntu Linux using nothing but open source software and 
+libaries. The game server was built with the following technologies:
 
-<p>
-  All technologies used in the creation of this project are open source. 
-</p>
+* [**Node.JS**][3]
+    - Server-side javascript interpreter using Chrome's V8 Javascript engine.
+* [**Express 3**][4]
+    - Popular web application framework for Node.JS similar to Sinatra
+* [**Socket.IO**][5]
+    - Websocket API with fallbacks for realtime communications
+* [**Javascript Expression Evaluator**][6] - (node-expression-eval npm pkg)
+    - An arithmetical expression evaluator/parser written in JavaScript.
 
-<h2>Description</h2>
+For the client, I am using the following open source libraries:
 
-<p>
-	The game consists of multiple players being shown 4 digits (0-9) and are put on a timer. 
-	The first player that can craft an arithmetical expression using all four of the digits 
-	once and only once is the winner. Players may use the four basic arithemtical operators 
-	(along with parenthesis to force precedence) in their expressions (+ - * /) and may use 
-	them more than once.
-</p>
+* [**jQuery**][7]
+    - Easy DOM manipulation/referencing
+* [**Twitter Bootstrap**][8]
+    - Popular CSS Framework from Developers at Twitter
+* [**KineticJS**][9]
+    - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.
 
-<p>
-	Here is a <strong><a href='http://youtu.be/gwTesvqwFWo'>
-	video of testing being done on the game server</a></strong> during development.
-</p>
+All technologies used in the creation of this project are open source.
 
-<h2>Build</h2>
-<p>In order to build my project either download the compressed project or pull it with git:</p>
-<pre>#   git clone http://github.com/CoryG89/Get24</pre>
-<p>
-	You'll need to have Node.JS and it's package manager NPM installed in order to build the server. 
-	If you have Node installed, run the following commands to install its dependencies and start the server.
-</p>
-<pre>#   npm install -d</pre>
-<pre>#   node app.js</pre>
-<p>
-	The server runs on port 3001 by default so you may access it in your browser using localhost like so:
-</p>
-<pre>http://localhost:3001/</pre>
+** Description
+
+The game consists of multiple players being shown four digits `(0-9)` and are 
+put on a timer. The first player that can craft an arithmetical expression using
+all four of the digits once and only once is the winner. Players may use the
+four basic arithemtical operators (along with parenthesis to force precedence)
+in their expressions `(+ - * /)` and may use them more than once.
+
+Here is a [**YouTube video**][10] of testing being done on the server and game
+client during development.
+
+** Build
+
+To build my project either download the compressed project or clone it with git:
+
+    #   git clone http://github.com/CoryG89/Get24/
+
+You'll need to have Node.JS and it's package manager NPM installed in order to
+build the server. If you have Node installed, run the following commands to
+install its dependencies and start the server.
+
+    #   npm install -d</pre>
+    #   node app.js</pre>
+
+The server runs on port 3001 by default so you may access it in your browser by
+pointing it to the loopback address via the hostname 'localhost' like so:
+    
+	http://localhost:3001/
+
+[1]: http://get24.jit.su/
+[2]: http://nodejitsu.com/
+[3]: http://nodejs.org/
+[4]: http://expressjs.com/
+[5]: http://socket.io/
+[6]: http://silentmatt.com/javascript-expression-evaluator/
+[7]: http://jquery.com/
+[8]: http://twitter.github.com/bootstrap/
+[9]: http://kineticjs.com/
+[10]: http://youtu.be/gwTesvqwFWo
