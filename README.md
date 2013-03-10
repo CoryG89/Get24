@@ -45,7 +45,7 @@ client during development.
 
 To build my project either download the compressed project or clone it with git:
 
-    #   git clone http://github.com/CoryG89/Get24/
+    #   git clone git://github.com/CoryG89/Get24/
 
 You'll need to have Node.JS and it's package manager NPM installed in order to
 build the server. If you have Node installed, run the following commands to
@@ -59,6 +59,14 @@ pointing it to the loopback address via the hostname 'localhost' like so:
     
 	http://localhost:3001/
 
+## Known Issues
+
+* Play and Help buttons on the slash screen aren't working in Chrome under Win8
+    - I have an [**open question on StackOverflow**][11] about this as well as 
+	an [**opened issue**][12] at the KineticJS GitHub repo. The technical
+	details are are all there. For now though, FireFox is really the only
+	browser on Windows that can be supported. I will issue a fix for this soon.
+
 [1]: http://get24.jit.su/
 [2]: http://nodejitsu.com/
 [3]: http://nodejs.org/
@@ -69,3 +77,5 @@ pointing it to the loopback address via the hostname 'localhost' like so:
 [8]: http://twitter.github.com/bootstrap/
 [9]: http://kineticjs.com/
 [10]: http://youtu.be/gwTesvqwFWo
+[11]: http://tiny.cc/acuptw
+[12]: https://github.com/ericdrowell/KineticJS/issues/311
