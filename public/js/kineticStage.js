@@ -41,7 +41,7 @@ stage.add(splashLayer);
 
 /** Play button and help button, along with their events */
 var playButton = new Kinetic.Group({
-	x: stageCenter.x - 65, y: stageCenter.y + 40
+	x: stageCenter.x - 65, y: stageCenter.y + 40, fill: colors.primaryOrange
 });
 var playButtonRect = new Kinetic.Rect({
 	x: -50, y: -20, width: 100, height: 40, strokeWidth: 4, cornerRadius: 10,
