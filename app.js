@@ -20,7 +20,7 @@ var gameList = [];
 var numConnections = 0;
 
 /** Server Presets */
-var MAX_CONNECTIONS = 100;		// 0 for no limit
+var MAX_CONNECTIONS = 0;	// 0 for no limit
 var PORT_NUM = 3001;
 
 /** Get express app object and set global configuration */
@@ -55,7 +55,7 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
-	if (!accept(socket)) refuse(socket);
+    if (!accept(socket)) return;
 
 	if (gameList.length === 0) {
 		gameList.push(new Game(io));
@@ -81,22 +81,24 @@ io.sockets.on('connection', function (socket) {
 	});	
 });
 
-/** Checks if we are at maximum capacity before fully connecting with client,
-	If client is accepted, true is returned. False is returned otherwise. */
-function accept(socket) {
-	if (++numConnections <= MAX_CONNECTIONS) {
-		socket.emit('connected', {numUsers: numConnections});
-		return true;
-	}
-	else return false;
-}
-
-/** If we are over capacity, call this function to send a msg
-    and begin delayed disconnect */
+/** If we are over capacity, send message and disconnect */
 function refuse(socket) {
 	socket.emit('overCapacity');
 	socket.disconnect();
 	numConnections--;
+}
+
+/** Checks if we are at maximum capacity before fully connecting with client,
+	If client is accepted, true is returned. False is returned otherwise. */
+function accept(socket) {
+    if (MAX_CONNECTIONS === 0 || ++numConnections <= MAX_CONNECTIONS) {
+        socket.emit('connected', { numUsers: numConnections });
+        return true;
+    }
+    else {
+        refuse(socket);
+        return false;
+    }
 }
 
 /** Handle Ctrl-C Signal, shutdown gracefully */
