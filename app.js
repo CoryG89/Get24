@@ -20,7 +20,7 @@ var gameList = [];
 var numConnections = 0;
 
 /** Server Presets */
-var MAX_CONNECTIONS = 0;	// 0 for no limit
+var MAX_CONNECTIONS = 100;	// 0 for no limit
 var PORT_NUM = 3001;
 
 /** Get express app object and set global configuration */
