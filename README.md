@@ -44,19 +44,20 @@ client during development.
 
 ## Build
 
-To build my project either download the compressed project or clone it with git:
+In order to build the project, you'll need to have both [**Git**][11] and 
+[**Node.JS**][3] installed.
+
+Clone the GitHub repository with the following:
 
     $   git clone git://github.com/CoryG89/Get24/
 
-You'll need to have Node.JS and it's package manager NPM installed in order to
-build the server. If you have Node installed, run the following commands to
-install its dependencies and start the server.
+Run the following commands to install dependencies and start the server.
 
     $   npm install
     $   node app.js
 
 The server runs on port 3001 by default so you may access it in your browser by
-pointing it to the loopback address via the hostname 'localhost' like so:
+pointing it to the loopback address via the hostname 'localhost' via:
     
 	http://localhost:3001/
 
@@ -70,3 +71,4 @@ pointing it to the loopback address via the hostname 'localhost' like so:
 [8]: http://twitter.github.com/bootstrap/
 [9]: http://kineticjs.com/
 [10]: http://youtu.be/gwTesvqwFWo
+[11]: http://git-scm.org
