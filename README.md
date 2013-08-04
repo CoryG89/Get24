@@ -7,7 +7,7 @@ good friends at [**Nodejitsu**][2]!
 
 ## Components
 
-Get24 was built using Ubuntu Linux using nothing but open source software and 
+Get24 was built on Ubuntu Linux with nothing but open source software and 
 libaries. The game server was built with the following technologies:
 
 * [**Node.JS**][3]
@@ -27,8 +27,6 @@ For the client, I am using the following open source libraries:
     - Popular CSS Framework from Developers at Twitter
 * [**KineticJS**][9]
     - HTML5 Canvas Graphics Library for simplified drawing, buffering, layering.
-
-All technologies used in the creation of this project are open source.
 
 ## Description
 
