@@ -2,7 +2,7 @@
 
 Get24 is a competetive real-time multiplayer math game that I wrote for a 
 Spring 2013 semester project for a game development course at Auburn University. 
-Check out my [**live web app**][1] running currently on a cloud instance from my
+Check out the [**live demo**][1] running currently on a cloud instance from my
 good friends at [**Nodejitsu**][2]!
 
 ## Components
@@ -32,11 +32,12 @@ All technologies used in the creation of this project are open source.
 
 ## Description
 
-The game consists of multiple players being shown four digits `(0-9)` and are 
-put on a timer. The first player that can craft an arithmetical expression using
-all four of the digits once and only once is the winner. Players may use the
-four basic arithemtical operators (along with parenthesis to force precedence)
-in their expressions `(+ - * /)` and may use them more than once.
+The game consists of multiple players being shown the same set of four digits
+`(0-9)` and are put on a timer. The first player that can craft an arithmetical
+expression using all four of the digits once and only once is the winner.
+Players may use the four basic arithemtical operators (along with parenthesis
+to force precedence) in their expressions `(+ - * /)` and may use them more
+than once.
 
 Here is a [**YouTube video**][10] of testing being done on the server and game
 client during development.
@@ -45,14 +46,14 @@ client during development.
 
 To build my project either download the compressed project or clone it with git:
 
-    #   git clone git://github.com/CoryG89/Get24/
+    $   git clone git://github.com/CoryG89/Get24/
 
 You'll need to have Node.JS and it's package manager NPM installed in order to
 build the server. If you have Node installed, run the following commands to
 install its dependencies and start the server.
 
-    #   npm install -d</pre>
-    #   node app.js</pre>
+    $   npm install
+    $   node app.js
 
 The server runs on port 3001 by default so you may access it in your browser by
 pointing it to the loopback address via the hostname 'localhost' like so:
