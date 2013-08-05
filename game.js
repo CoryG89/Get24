@@ -95,9 +95,12 @@ var Game = function (io) {
 			out. If we cannot find one of the card digits, stop & return -1. */
 		for (var i = 0; i < gameCard.length; i++) {
 			var res = temp.search(gameCard[i]);
-			if (res < 0) return -1;
-			else if (res < temp.length - 1 && !isNaN(parseInt(temp[res+1]))) return -3;
-			else temp = temp.replace(temp[res],'');
+			if (res < 0) 
+                return -1;
+			else if (res < temp.length - 1 && !isNaN(parseInt(temp[res+1], 10)))
+                return -3;
+			else 
+                temp = temp.replace(temp[res],'');
 		}
 		
 		/** At this point, all card digits have been found, and stripped out
@@ -143,17 +146,17 @@ var Game = function (io) {
 		
 		/** 50% of the time we will use medium difficulty cards */
 		if (rnd <= 5) {
-			var rnd = Math.floor(Math.random() * Game.Cards.med.length);		
+			rnd = Math.floor(Math.random() * Game.Cards.med.length);		
 			return Game.Cards.med[rnd];
 		} 
 		/** 30% of the time we will use easy difficulty cards */
 		else if (rnd <= 8) {
-			var rnd = Math.floor(Math.random() * Game.Cards.easy.length);
+			rnd = Math.floor(Math.random() * Game.Cards.easy.length);
 			return Game.Cards.easy[rnd];
 		} 
 		/** 20% of the time we will use hard difficulty cards */
 		else {
-			var rnd = Math.floor(Math.random() * Game.Cards.hard.length);
+			rnd = Math.floor(Math.random() * Game.Cards.hard.length);
 			return Game.Cards.hard[rnd];
 		}	
 	}
@@ -161,10 +164,9 @@ var Game = function (io) {
 	/** Expose public methods */
 	this.getGameID = function () { return gameID; };
 	this.join = function (socket) { connectPlayer(socket); };
-	this.isFull = function () { return (playerCount === Game.MAX_PLAYERS); };
+	this.isFull = function () { return playerCount === Game.MAX_PLAYERS; };
 };
 
-/** Get24 game presets as public static variables */
 Game.MAX_PLAYERS = 4;
 Game.INITIAL_TIMER = 300;
 
