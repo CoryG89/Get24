@@ -171,7 +171,7 @@ Game.MAX_PLAYERS = 4;
 Game.INITIAL_TIMER = 300;
 
 /** Import game card data from custom Node.JS module as static variable */
-Game.Cards = require('./gameCards.js');
+Game.Cards = require('./game-cards');
 
 /** Export as Node.JS Module */
 module.exports = Game;
