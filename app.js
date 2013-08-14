@@ -29,21 +29,12 @@ app.configure(function () {
 	app.set('port', process.env.PORT || PORT_NUM);
 	app.use(express.favicon());
 	app.use(express.logger('dev'));
-	app.use(express.bodyParser());
-	app.use(express.methodOverride());
-	app.use(express.cookieParser('SuperDuperAppSpecificSecretGoesHere'));
-	app.use(express.session());
 	app.use(express.static(path.join(__dirname, 'public')));
 });
 
 /** Setup express dev configuration */
 app.configure('development', function () {
 	app.use(express.errorHandler());
-});
-
-/** Setup routing, serve files from the public directory */
-app.get('/*', function (req, res) {
-	res.sendfile(__dirname + '/public/' + req.params[0]);
 });
 
 /** Create an HTTP server with our configured express app object */
@@ -58,18 +49,23 @@ io.sockets.on('connection', function (socket) {
     if (!accept(socket)) return;
 
 	if (gameList.length === 0) {
+
 		gameList.push(new Game(io));
 		gameList[0].join(socket);
+
 	} else {
 		var gameFound = false;
 	
 		for (var i = 0; i < gameList.length; i++) {
-			if (!gameList[i].isFull()) {
-				gameList[i].join(socket);
+            var game = gameList[i];
+
+			if (!game.isFull()) {
+				game.join(socket);
 				gameFound = true;
 				break;
 			}
 		}
+
 		if (!gameFound) {
 			gameList.push(new Game(io));
 			gameList[gameList.length - 1].join(socket);
@@ -81,22 +77,16 @@ io.sockets.on('connection', function (socket) {
 	});	
 });
 
-/** If we are over capacity, send message and disconnect */
-function refuse(socket) {
-	socket.emit('overCapacity');
-	socket.disconnect();
-	numConnections--;
-}
-
 /** Checks if we are at maximum capacity before fully connecting with client,
 	If client is accepted, true is returned. False is returned otherwise. */
 function accept(socket) {
-    if (MAX_CONNECTIONS === 0 || ++numConnections <= MAX_CONNECTIONS) {
-        socket.emit('connected', { numUsers: numConnections });
+    if (MAX_CONNECTIONS === 0 || numConnections < MAX_CONNECTIONS) {
+        socket.emit('connected', { numUsers: ++numConnections });
         return true;
     }
     else {
-        refuse(socket);
+        socket.emit('overCapacity');
+        socket.disconnect();
         return false;
     }
 }

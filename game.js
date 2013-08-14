@@ -9,10 +9,9 @@
  * its own Socket.IO channel to establish game-specific communication.
  */
 
-/** Import required modules */
-var uuid = require('node-uuid');				// Easy UUID generation
-var Parser = require('node-expression-eval');	// JavaScript Expression Evaluator
-var Timer = require('./timer.js');				// Custom callback timer
+var uuid = require('node-uuid');
+var parser = require('node-expression-eval');
+var Timer = require('./timer');
 
 var Game = function (io) {
 	
@@ -28,11 +27,11 @@ var Game = function (io) {
 	var gameTimer = new Timer({
 		initialTime: Game.INITIAL_TIMER,
 		tickCallback: function (time) {
-			io.sockets.in(gameID).emit('timer', {time: time});
+			io.sockets.in(gameID).emit('timer', { time: time });
 		},
 		finalCallback: function () {
 			gameCard = getRandomCard();
-			io.sockets.in(gameID).emit('newCard', {card: gameCard});
+			io.sockets.in(gameID).emit('newCard', { card: gameCard });
 		},
 		loop: true
 	});
@@ -65,7 +64,7 @@ var Game = function (io) {
 			if (res === 0) {
 				var passedEval = true;
 				
-				try { data.evaluated = Parser.evaluate(data.expression); } 
+				try { data.evaluated = parser.evaluate(data.expression); } 
 				catch(e) {	
 					passedEval = false;
 					socket.emit('invalidExpr', {msg: 'Invalid.'});

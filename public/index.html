@@ -7,43 +7,28 @@
 		<!-- Server source code at http://github.com/CoryG89/Get24 -->
 		
 		<!-- Socket.IO Client API (symbolic src path handled by the server) -->
-		<script type='text/ecmascript' src='/socket.io/socket.io.js'></script>
-		
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<!-- KineticJS canvas gfx library for ease of use, perf, layering -->
-		<script type='text/ecmascript' src='js/vendor/kinetic-v4.3.3.min.js'></script>
-		<!-- Local jQuery 1.9, for easy DOM manipulation/referencing, etc -->
-		<script type='text/ecmascript' src='js/vendor/jquery-1.9.0.min.js'></script>
-		<!-- jQuery Virtual Mouse Plugin for fast mobile event callbacks -->
-		<script type='text/ecmascript' src='js/vendor/jquery.mobile.vmouse.js'></script>
-		<!-- Twitter Bootstrap Javascript backend -->
-		<script type='text/ecmascript' src='js/vendor/bootstrap.min.js'></script>
-		
-		<!-- Twitter Bootstrap CSS Framework -->
-		<link type='text/css' rel='stylesheet' href='css/bootstrap.min.css' />
-		<link type='text/css' rel='stylesheet' href='css/bootstrap-responsive.min.css' />
+		<script type="text/javascript" src="js/vendor/kinetic-v4.3.3.min.js"></script>
+
 		<!-- Apply our own custom stylesheet last, to override anything else -->
-		<link type='text/css' rel='stylesheet' href='css/custom.css' />
-	
+		<link type="text/css" rel="stylesheet" href="css/styles.css" />
 	</head>
 <body>
 	
 	<!-- KineticJS wrapper && stage container -->
-	<div class='container' id='wrapper'>	
-		<div class='container' id='container'></div>
-		<div class='input-append'>
-		<input type='text' id='evalInput' disabled />
-			<div class='btn btn-primary disabled' id='submitButton'>Submit 
-			<i class='icon-chevron-right icon-white'></i></div>
-		</div>
+	<div id="wrapper">
+		<div id="container"></div>
+		<form id="eval-form">
+			<input type="text" id="eval-input" disabled />
+			<input type="submit" id="submit-input" value="Submit" disabled>
+		</form>
 	</div>
 
 	<!-- Include SocketIO connection setup and custom event handlers -->
-	<script type='text/ecmascript' src='js/socketEvents.js'></script>
+	<script type="text/javascript" src="js/SocketController.js"></script>
 	
 	<!-- KineticJS Stage, elements, event handlers, and related functions -->
-	<script type='text/ecmascript' src='js/kineticStage.js'></script>
-	
-	<!-- jQuery event handlers and code for non Kinetic elements -->
-	<script type='text/ecmascript' src='js/jqueryEvents.js'></script>
+	<script type="text/javascript" src="js/StageController.js"></script>
 </body>
 </html>

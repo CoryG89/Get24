@@ -1,0 +1,15 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+div#wrapper {
+    margin: auto;
+	width: 350px;
+	height: 250px;
+}
+
+input#eval-input {
+	margin-left: 14px;
+	width: 260px;
+}
