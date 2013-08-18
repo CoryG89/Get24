@@ -8,10 +8,8 @@ var StageController = (function (window, document, SocketController, undefined) 
 
 	evalForm.addEventListener('submit', function (evt) {
 		evt.preventDefault();
-		var value = evalInput.value;
-		SocketController.emit('submitExpression', { 
-			expression: value
-		});
+		var expression = evalInput.value;
+		SocketController.submit(expression);
 		evalInput.value = '';
 	}, false);
 
