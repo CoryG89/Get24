@@ -12,12 +12,9 @@
 var uuid = require('node-uuid');
 var parser = require('node-expression-eval');
 var Timer = require('./timer');
+var config = require('./config');
 
-var Game = function (io) {
-	
-	/** Object wide reference to 'this' within all closures */
-	var self = this;
-	
+var Game = function (io) {	
 	/** Set initial values */
 	var playerCount = 0;
 	var gameID = uuid();
@@ -25,7 +22,7 @@ var Game = function (io) {
 	
 	/** Configure the game's internal timer */
 	var gameTimer = new Timer({
-		initialTime: Game.INITIAL_TIMER,
+		initialTime: config.initialTimer,
 		tickCallback: function (time) {
 			io.sockets.in(gameID).emit('timer', { time: time });
 		},
@@ -138,32 +135,32 @@ var Game = function (io) {
 			});
 		}
 	}
-	
+
 	/** Randomizes the current game cards weighting by difficulty */
 	function getRandomCard() {
-		var rnd = Math.random() * 10;
+		var rnd = Math.random();
 		
 		/** 50% of the time we will use medium difficulty cards */
-		if (rnd <= 5) {
+		if (rnd < config.mediumCutoff) {
 			rnd = Math.floor(Math.random() * Game.Cards.med.length);		
 			return Game.Cards.med[rnd];
-		} 
+		}
 		/** 30% of the time we will use easy difficulty cards */
-		else if (rnd <= 8) {
+		else if (rnd < config.easyCutoff) {
 			rnd = Math.floor(Math.random() * Game.Cards.easy.length);
 			return Game.Cards.easy[rnd];
-		} 
+		}
 		/** 20% of the time we will use hard difficulty cards */
 		else {
 			rnd = Math.floor(Math.random() * Game.Cards.hard.length);
 			return Game.Cards.hard[rnd];
-		}	
+		}
 	}
 	
 	/** Expose public methods */
 	this.getGameID = function () { return gameID; };
 	this.join = function (socket) { connectPlayer(socket); };
-	this.isFull = function () { return playerCount === Game.MAX_PLAYERS; };
+	this.isFull = function () { return playerCount === config.maxPlayers; };
 };
 
 Game.MAX_PLAYERS = 4;

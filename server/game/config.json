@@ -1,0 +1,6 @@
+{
+  "maxPlayers": 4,
+  "initialTimer": 300,
+  "mediumCutoff": 0.5,
+  "easyCutoff": 0.8
+}

@@ -14,7 +14,7 @@
   },
   "subdomain": "Get24",
   "scripts": {
-    "start": "app.js"
+    "start": "node index.js"
   },
   "engines": {
     "node": "0.8.x"

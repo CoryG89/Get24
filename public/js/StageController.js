@@ -40,7 +40,7 @@ var StageController = (function (window, document, SocketController, undefined) 
 		fill: colors.primaryOrange, stroke: colors.primaryBlue,
 		fontStyle: 'bold', fontSize: 48,
 		shadowColor: 'black', shadowBlur: 10, shadowOffset: [0,7],
-		shadowOpacity: 0.2, strokeWidth: 3,  text: 'Get24'
+		shadowOpacity: 0.2, strokeWidth: 2,  text: 'Get24'
 	});
 	titleText.setX(stageCenter.x - titleText.getWidth()/2);
 	titleText.setY(titleText.getHeight() / 2);
@@ -73,7 +73,7 @@ var StageController = (function (window, document, SocketController, undefined) 
 		fill: colors.primaryOrange
 	});
 	var playButtonRect = new Kinetic.Rect({
-		width: 100, height: 40, strokeWidth: 4, cornerRadius: 10,
+		width: 100, height: 40, strokeWidth: 3, cornerRadius: 10,
 		fill: colors.primaryOrange, stroke: colors.primaryBlue
 	});
 	var playButtonText = new Kinetic.Text({
@@ -129,7 +129,7 @@ var StageController = (function (window, document, SocketController, undefined) 
 	});
 	var helpButtonRect = new Kinetic.Rect({
 		width: 100, height:40, fill: colors.primaryOrange,
-		stroke: colors.primaryBlue,	strokeWidth: 4, cornerRadius: 10
+		stroke: colors.primaryBlue,	strokeWidth: 3, cornerRadius: 10
 	});
 	var helpButtonText = new Kinetic.Text({
 		y: 7, width: 100, align: 'center', height: 40, text: 'Help',
@@ -152,7 +152,7 @@ var StageController = (function (window, document, SocketController, undefined) 
 			x: -150, y: 130, fontStyle: 'bold', 
 			fontSize: 48, shadowColor: 'black', shadowOffset: [0,7],
 			shadowOpacity: 0.2, fill: colors.primaryOrange, text: '0',
-			stroke: colors.primaryBlue, strokeWidth: 3, visible: false
+			stroke: colors.primaryBlue, strokeWidth: 2, visible: false
 		});
 		activeLayer.add(cardText[i]);
 	}
@@ -161,7 +161,7 @@ var StageController = (function (window, document, SocketController, undefined) 
 	var mainMsg = new Kinetic.Text({
 		x: stageCenter.x, y: 140, fill: colors.primaryOrange, 
 		stroke: colors.primaryBlue, fontStyle: 'bold', 
-		fontSize: 48, shadowColor: 'black', shadowBlur: 10, strokeWidth: 3,
+		fontSize: 48, shadowColor: 'black', shadowBlur: 10, strokeWidth: 2,
 		shadowOffset: [0,7], shadowOpacity: 0.2, opacity: 0
 	});
 	var mainMsgAnim = new Kinetic.Animation(function (frame) {

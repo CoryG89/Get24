@@ -10,26 +10,28 @@
  */
 
 /** Import required modules */
-var http = require('http');				// Node.JS HTTP Server
-var path = require('path');				// String File Path Handler
-var express = require('express');		// Express WebApp Framework
-var Game = require('./game.js');		// Custom Get24 Game Module
+var http = require('http');
+var path = require('path');
+var express = require('express');
+
+/** Import custom Get24 Game object */
+var Game = require('./game');
+
+/** Import server configuration file */
+var config = require('./config');
+var maxConnections = config.maxConnections;
 
 /** List of stored game obects and global connection counter */
 var gameList = [];
 var numConnections = 0;
 
-/** Server Presets */
-var MAX_CONNECTIONS = 100;	// 0 for no limit
-var PORT_NUM = 3001;
-
 /** Get express app object and set global configuration */
 var app = express();
 app.configure(function () {
-	app.set('port', process.env.PORT || PORT_NUM);
+	app.set('port', process.env.PORT || config.port);
 	app.use(express.favicon());
 	app.use(express.logger('dev'));
-	app.use(express.static(path.join(__dirname, 'public')));
+	app.use(express.static(path.join(__dirname, '..', 'public')));
 });
 
 /** Setup express dev configuration */
@@ -42,7 +44,7 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 	console.log('\nExpress server listening port ' + app.get('port') + '\n');
 });
 
-/** Get our global Socket.IO object for our server */
+/** Use Socket IO to listen on the same port as our server */
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
@@ -80,7 +82,7 @@ io.sockets.on('connection', function (socket) {
 /** Checks if we are at maximum capacity before fully connecting with client,
 	If client is accepted, true is returned. False is returned otherwise. */
 function accept(socket) {
-    if (MAX_CONNECTIONS === 0 || numConnections < MAX_CONNECTIONS) {
+    if (maxConnections === 0 || numConnections < maxConnections) {
         socket.emit('connected', { numUsers: ++numConnections });
         return true;
     }
