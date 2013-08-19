@@ -13,6 +13,7 @@
 var http = require('http');
 var path = require('path');
 var express = require('express');
+var uuid = require('node-uuid');
 
 /** Import custom Get24 Game object */
 var Game = require('./game');
@@ -51,8 +52,8 @@ io.sockets.on('connection', function (socket) {
     if (!accept(socket)) return;
 
 	if (gameList.length === 0) {
-
-		gameList.push(new Game(io));
+		var gameId = uuid.v4();
+		gameList.push(new Game(io, gameId));
 		gameList[0].join(socket);
 
 	} else {

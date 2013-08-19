@@ -57,12 +57,12 @@ var StageController = (function (window, document, SocketController, undefined) 
 	var onMouseOverKineticButton = function () {
 		this.children[0].setFill(colors.secondaryOrange);
 		document.body.style.cursor = 'pointer';
-		this.getLayer().draw();
+		activeLayer.draw();
 	};
 	var onMouseOutKineticButton = function () {
 		this.children[0].setFill(colors.primaryOrange);
 		document.body.style.cursor = 'auto';
-		this.getLayer().draw();
+		activeLayer.draw();
 	};	
 
 	/** Play button and help button, along with their events */
@@ -91,14 +91,9 @@ var StageController = (function (window, document, SocketController, undefined) 
 	helpDialog.status = false;
 	helpDialog.toggle = function () {
 		helpDialog.status = !helpDialog.status;
-
-		var layer = this.getLayer();
-
 		if (helpDialog.status) layer.add(helpDialog);
 		else helpDialog.remove();
-
-		layer.draw();
-
+		activeLayer.draw();
 	};
 
 	var helpDialogRect = new Kinetic.Rect({
@@ -194,9 +189,13 @@ var StageController = (function (window, document, SocketController, undefined) 
 			var targetX = (stageCenter.x - 86) + (i * 50);
 			cardText[i].setVisible(true);
 			cardText[i].setText(cardVector[i]);
-			cardText[i].transitionTo({
-				x: targetX, easing: 'ease-in', duration: 1.5
+			var tween = new Kinetic.Tween({ 
+				node: cardText[i],
+				duration: 1.5,
+				easing: Kinetic.Easings.EaseIn,
+				x: targetX
 			});
+			tween.play();
 		}
 		cardTextVisible = true;
 		activeLayer.draw();

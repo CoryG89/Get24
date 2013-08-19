@@ -9,15 +9,15 @@
  * its own Socket.IO channel to establish game-specific communication.
  */
 
-var uuid = require('node-uuid');
 var parser = require('node-expression-eval');
 var Timer = require('./timer');
+var cards = require('./cards');
 var config = require('./config');
 
-var Game = function (io) {	
+var Game = function (io, id) {	
 	/** Set initial values */
 	var playerCount = 0;
-	var gameID = uuid();
+	var gameID = id;
 	var gameCard = getRandomCard();
 	
 	/** Configure the game's internal timer */
@@ -142,18 +142,18 @@ var Game = function (io) {
 		
 		/** 50% of the time we will use medium difficulty cards */
 		if (rnd < config.mediumCutoff) {
-			rnd = Math.floor(Math.random() * Game.Cards.med.length);		
-			return Game.Cards.med[rnd];
+			rnd = Math.floor(Math.random() * cards.med.length);		
+			return cards.med[rnd];
 		}
 		/** 30% of the time we will use easy difficulty cards */
 		else if (rnd < config.easyCutoff) {
-			rnd = Math.floor(Math.random() * Game.Cards.easy.length);
-			return Game.Cards.easy[rnd];
+			rnd = Math.floor(Math.random() * cards.easy.length);
+			return cards.easy[rnd];
 		}
 		/** 20% of the time we will use hard difficulty cards */
 		else {
-			rnd = Math.floor(Math.random() * Game.Cards.hard.length);
-			return Game.Cards.hard[rnd];
+			rnd = Math.floor(Math.random() * cards.hard.length);
+			return cards.hard[rnd];
 		}
 	}
 	
@@ -162,12 +162,6 @@ var Game = function (io) {
 	this.join = function (socket) { connectPlayer(socket); };
 	this.isFull = function () { return playerCount === config.maxPlayers; };
 };
-
-Game.MAX_PLAYERS = 4;
-Game.INITIAL_TIMER = 300;
-
-/** Import game card data from custom Node.JS module as static variable */
-Game.Cards = require('./game-cards');
 
 /** Export as Node.JS Module */
 module.exports = Game;
