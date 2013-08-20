@@ -202,15 +202,15 @@ var StageController = (function (window, document, SocketController, undefined) 
 	};
 
 	var fadeCardText = function (callback) {
-		for (var i = 0; i < cardText.length; i++)
-			if (i < cardText.length - 1)
-				cardText[i].transitionTo({ 
-					opacity: 0, duration: 1
-				});
-			else
-				cardText[i].transitionTo({ 
-					opacity: 0, duration: 1, callback: callback
-				});
+		for (var i = 0; i < cardText.length; i++) {
+			var tween = new Kinetic.Tween({
+				node: cardText[i],
+				duration: 1,
+				opacity: 0,
+				onFinish: i === cardText.length - 1 ? callback : undefined
+			});
+			tween.play();
+		}
 	};
 		
 	var resetCardText = function () {
@@ -223,17 +223,20 @@ var StageController = (function (window, document, SocketController, undefined) 
 		cardTextVisible = false;
 	};
 
-	var showMainMessage = function (msg) {
+	var showMainMessage = function (msg, callback) {
 		mainMsg.setText(msg);
 		mainMsg.setX(stageCenter.x - mainMsg.getWidth() / 2);
 		mainMsgAnim.start();
-	};
-
-	var stopMainMessage = function (callback) {
-		mainMsgAnim.stop();
-		mainMsg.transitionTo({
-			opacity: 0, duration: 1, callback: callback
-		});
+		setTimeout(function () {
+			mainMsgAnim.stop();
+			var tween = new Kinetic.Tween({
+				node: mainMsg,
+				opacity: 0,
+				duration: 1,
+				onFinish: callback
+			});
+			tween.play();
+		}, 5000);
 	};
 
 	/** StageController export */
@@ -291,25 +294,19 @@ var StageController = (function (window, document, SocketController, undefined) 
 		showLoss: function (data) {
 			this.showEvaluatedText(data.expression, '#dd0000', false, 5000);
             fadeCardText(function () {
-                showMainMessage('Sorry, you lose!');
-                setTimeout(function () { 
-                    stopMainMessage(function () {
-                        resetCardText();
-                        animateCardText(data.card);
-                    }); 
-                }, 5000);
+                showMainMessage('Sorry, you lose!', function () {
+                    resetCardText();
+                    animateCardText(data.card);
+                });
             });
         },
 
         showWin: function (data) {
 			fadeCardText(function () {
-				showMainMessage('You win!');
-				setTimeout(function () {
-					stopMainMessage(function () {
-						resetCardText();
-						animateCardText(data.card);
-					});
-				}, 5000);
+				showMainMessage('You win!', function () {
+					resetCardText();
+					animateCardText(data.card);
+				});
 			});
         },
 
