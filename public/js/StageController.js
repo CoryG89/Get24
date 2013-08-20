@@ -54,15 +54,17 @@ var StageController = (function (window, document, SocketController, undefined) 
 	stage.add(splashLayer);
 
 	/** Events for hovering over kinetic buttons */
-	var onMouseOverKineticButton = function () {
+	var onMouseOverKineticButton = function (evt) {
+		evt.cancelBubble = true;
 		this.children[0].setFill(colors.secondaryOrange);
 		document.body.style.cursor = 'pointer';
-		activeLayer.draw();
+		this.getLayer().draw();
 	};
-	var onMouseOutKineticButton = function () {
+	var onMouseOutKineticButton = function (evt) {
+		evt.cancelBubble = true;
 		this.children[0].setFill(colors.primaryOrange);
 		document.body.style.cursor = 'auto';
-		activeLayer.draw();
+		this.getLayer().draw();
 	};	
 
 	/** Play button and help button, along with their events */
@@ -139,7 +141,6 @@ var StageController = (function (window, document, SocketController, undefined) 
 
 	/** Create game card text objects to hold each of our card digits */
 	var cardText = [];
-	var cardTextVisible = false;
 	for(var i = 0; i < 4; i++) {
 		cardText[i] = new Kinetic.Text({
 			x: -150, y: 130, fontStyle: 'bold', 
@@ -197,17 +198,22 @@ var StageController = (function (window, document, SocketController, undefined) 
 			});
 			tween.play();
 		}
-		cardTextVisible = true;
 		activeLayer.draw();
 	};
 
 	var fadeCardText = function (callback) {
-		for (var i = 0; i < cardText.length; i++) {
+		var finished = 0;
+		var onFinished = function () {
+			if (++finished === cardText.length) {
+				callback();
+			}
+		};
+        for (var i = 0; i < cardText.length; i++) {
 			var tween = new Kinetic.Tween({
 				node: cardText[i],
 				duration: 1,
 				opacity: 0,
-				onFinish: i === cardText.length - 1 ? callback : undefined
+				onFinish: onFinished
 			});
 			tween.play();
 		}
@@ -218,9 +224,8 @@ var StageController = (function (window, document, SocketController, undefined) 
 			cardText[i].setVisible(false);
 			cardText[i].setOpacity(1);
 			cardText[i].setX(-150);
-			activeLayer.draw();
 		}
-		cardTextVisible = false;
+		activeLayer.draw();
 	};
 
 	var showMainMessage = function (msg, callback) {
@@ -311,13 +316,10 @@ var StageController = (function (window, document, SocketController, undefined) 
         },
 
         showNewCard: function (data) {
-            if (!cardTextVisible) animateCardText(data.card);
-            else {
-                fadeCardText(function () {
-                    resetCardText();
-                    animateCardText(data.card);
-                });
-            }
+            fadeCardText(function () {
+                resetCardText();
+                animateCardText(data.card);
+            });
         }
 
 	};
