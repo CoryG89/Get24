@@ -1,6 +1,8 @@
 var StageController = (function (window, document, SocketController, undefined) {
 	'use strict';
 
+	var gameId;
+
 	/** Non-Stage elements */
 	var evalForm = document.getElementById('eval-form');
 	var evalInput = document.getElementById('eval-input');
@@ -248,20 +250,24 @@ var StageController = (function (window, document, SocketController, undefined) 
 	var controller = {
 
 		initGame: function (data) {
+			/** Remove buttons */
 			playButton.remove();
 			helpButton.remove();
-			
 			document.body.style.cursor = 'auto';
 
+			/** Show hidden text labels */
 			timerText.setVisible(true);
 			playersText.setVisible(true);
 
+			/** Enable DOM form elements */
 			evalInput.disabled = false;
 			submitButton.disabled = false;
 
+			/** Throw out the first card and update the player count */
 			animateCardText(data.card);
-
 			this.updatePlayerCount(data.numPlayers);
+
+
 		},
 
 		showEvaluatedText: function (txt, fill, blink, time) {
@@ -296,32 +302,27 @@ var StageController = (function (window, document, SocketController, undefined) 
 			activeLayer.draw();
 		},
 
-		showLoss: function (data) {
-			this.showEvaluatedText(data.expression, '#dd0000', false, 5000);
-            fadeCardText(function () {
-                showMainMessage('Sorry, you lose!', function () {
-                    resetCardText();
-                    animateCardText(data.card);
-                });
-            });
-        },
-
-        showWin: function (data) {
+		showRoundOver: function (data) {
+			var msg;
+			switch(data.type) {
+				case 'win':
+					msg = 'You win!';
+					break;
+				case 'loss':
+					this.showEvaluatedText(data.expression, '#dd0000', false, 5000);
+					msg = 'Sorry, you lose!';
+					break;
+				case 'timer':
+					msg = 'Time up!';
+					break;
+			}
 			fadeCardText(function () {
-				showMainMessage('You win!', function () {
+				showMainMessage(msg, function () {
 					resetCardText();
 					animateCardText(data.card);
 				});
 			});
-        },
-
-        showNewCard: function (data) {
-            fadeCardText(function () {
-                resetCardText();
-                animateCardText(data.card);
-            });
-        }
-
+		}
 	};
 
 	/** Inject StageController dependency into SocketController so event

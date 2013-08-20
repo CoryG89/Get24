@@ -10,25 +10,26 @@
  */
 
 var parser = require('node-expression-eval');
+var uuid = require('node-uuid');
 var Timer = require('./timer');
 var cards = require('./cards');
 var config = require('./config');
 
-var Game = function (io, id) {	
+var Game = function (io) {	
 	/** Set initial values */
 	var playerCount = 0;
-	var gameID = id;
+	var gameId = uuid.v4();
 	var gameCard = getRandomCard();
 	
 	/** Configure the game's internal timer */
 	var gameTimer = new Timer({
 		initialTime: config.initialTimer,
 		tickCallback: function (time) {
-			io.sockets.in(gameID).emit('timer', { time: time });
+			io.sockets.in(gameId).emit('timer', { time: time });
 		},
 		finalCallback: function () {
 			gameCard = getRandomCard();
-			io.sockets.in(gameID).emit('newCard', { card: gameCard });
+			io.sockets.in(gameId).emit('roundOver', { type: 'timer',  card: gameCard });
 		},
 		loop: true
 	});
@@ -38,22 +39,22 @@ var Game = function (io, id) {
 		attachSocket(socket);
 		playerCount++;
 		socket.emit('gameJoined', {
-			room: gameID, 
+			room: gameId, 
 			card: gameCard, 
 			numPlayers: playerCount 
 		});
-		socket.broadcast.to(gameID).emit('playerJoined', {numPlayers: playerCount});
+		socket.broadcast.to(gameId).emit('playerJoined', {numPlayers: playerCount});
 		if (playerCount === 1) gameTimer.start();
 	}
 	
 	/** Joins the player socket to this game's Socket.IO channel and
 		attaches all the game's event handlers. */
 	function attachSocket(socket) {
-		socket.join(gameID);
+		socket.join(gameId);
 		
 		socket.on('disconnect', function () {
 			if (--playerCount === 0) gameTimer.reset();
-			socket.broadcast.to(gameID).emit('playerQuit', {numPlayers: playerCount});
+			socket.broadcast.to(gameId).emit('playerQuit', {numPlayers: playerCount});
 		});
 		
 		socket.on('submitExpression', function (data) {
@@ -128,8 +129,9 @@ var Game = function (io, id) {
 		if (data.evaluated === 24) {
 			gameTimer.restart();
 			gameCard = getRandomCard();
-			socket.emit('youWin', { card: gameCard });
-			socket.broadcast.to(gameID).emit('youLose', {
+			socket.emit('roundOver', { type: 'win', card: gameCard });
+			socket.broadcast.to(gameId).emit('roundOver', {
+				type: 'loss',
 				expression: data.expression,
 				card: gameCard
 			});
@@ -158,7 +160,7 @@ var Game = function (io, id) {
 	}
 	
 	/** Expose public methods */
-	this.getGameID = function () { return gameID; };
+	this.getGameID = function () { return gameId; };
 	this.join = function (socket) { connectPlayer(socket); };
 	this.isFull = function () { return playerCount === config.maxPlayers; };
 };

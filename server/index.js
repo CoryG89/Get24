@@ -13,7 +13,6 @@
 var http = require('http');
 var path = require('path');
 var express = require('express');
-var uuid = require('node-uuid');
 
 /** Import custom Get24 Game object */
 var Game = require('./game');
@@ -48,28 +47,34 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 /** Use Socket IO to listen on the same port as our server */
 var io = require('socket.io').listen(server);
 
+io.configure('development', function () {
+    io.set('origins', 'http://localhost:' + app.get('port'));
+});
+
+io.configure('production', function () {
+    io.set('origins', 'http://get24.jit.su:80');
+});
+
 io.sockets.on('connection', function (socket) {
     if (!accept(socket)) return;
 
 	if (gameList.length === 0) {
-		var gameId = uuid.v4();
-		gameList.push(new Game(io, gameId));
+		gameList.push(new Game(io));
 		gameList[0].join(socket);
-
 	} else {
-		var gameFound = false;
+		var allGamesFull = true;
 	
 		for (var i = 0; i < gameList.length; i++) {
             var game = gameList[i];
 
 			if (!game.isFull()) {
 				game.join(socket);
-				gameFound = true;
+				allGamesFull = false;
 				break;
 			}
 		}
 
-		if (!gameFound) {
+		if (allGamesFull) {
 			gameList.push(new Game(io));
 			gameList[gameList.length - 1].join(socket);
 		}

@@ -21,6 +21,11 @@ var SocketController = (function (window, io, undefined) {
                 log('No. users connected to server: %d', data.numUsers);
             });
 
+            socket.on('overCapacity', function () {
+                alert('Server currently at max capacity, try again soon!');
+                log('Connection Refused --> At maximum capacity! : (');
+            });
+
             socket.on('gameJoined', function (data) {
                 log('Game room joined --> ' + data.room);
                 log('No. players in the room: %d', data.numPlayers);
@@ -38,11 +43,6 @@ var SocketController = (function (window, io, undefined) {
                 log('No. players in the room: %d', data.numPlayers);
                 StageController.updatePlayerCount(data.numPlayers);
             });
-
-            socket.on('overCapacity', function () {
-                alert('Server currently at max capacity, try again soon!');
-                log('Connection Refused --> At maximum capacity! : (');
-            });
             
             socket.on('evaluatedExpr', function (data) {
                 var value = data.evaluated;
@@ -57,22 +57,13 @@ var SocketController = (function (window, io, undefined) {
             });
             
             socket.on('timer', function (data) {
+                // log('Timer update received from server -- %d', data.time);
                 StageController.updateTimer(data.time);
             });
             
-            socket.on('newCard', function (data) {
+            socket.on('roundOver', function (data) {
                 log('New game card issued from server -- %o', data.card);
-                StageController.showNewCard(data);
-            });
-            
-            socket.on('youLose', function (data) {
-                log('You lose, correct expression was: %s', data.expression);
-                StageController.showLoss(data);
-            });
-            
-            socket.on('youWin', function (data) {
-                log('You win!');
-                StageController.showWin(data);
+                StageController.showRoundOver(data);
             });
         }
     };
